@@ -17,7 +17,7 @@ const TableSchema = mongoose.Schema({
         default: 1,
         enum: [1, 2, 3, 4]
     },
-    ordered: {
+    mode: {
         default: "offline",
         enum: ["offline", "online"]
     },
