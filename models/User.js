@@ -31,17 +31,24 @@ const ProductSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    description:{
+        type:String,
+        required:true,
+    },
     cuisine:{
-        type: String,
-        required: true,
+        enum:["Chinese","Indian","Mexican","Italian","Bhutanese","Nepalese","American"],
+        default: "Indian",
     },
     vegetarian:{
-        type: Boolean,
-        default:false,
+        enum:["veg","non-veg"] ,
+        default:"veg",
     },
     price:{
         type: Number,
         required: true,
+    },
+    image:{
+        type:String,
     },
     })
 
