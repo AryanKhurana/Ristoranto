@@ -26,5 +26,24 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
     }
 })
+const ProductSchema = new mongoose.Schema({
+    name:{
+        type:String,
+        required:true,
+    },
+    cuisine:{
+        type: String,
+        required: true,
+    },
+    vegetarian:{
+        type: Boolean,
+        default:false,
+    },
+    price:{
+        type: Number,
+        required: true,
+    },
+    })
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports.User = mongoose.model('User', UserSchema)
+module.exports.Product=mongoose.model('Product',ProductSchema)
