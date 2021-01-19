@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const ProductSchema = mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -14,15 +14,18 @@ const ProductSchema = mongoose.Schema({
         required: true
     },
     cuisine: {
+        type: String,
         default: "Indian",
-        enum: ["Chinese","Indian","Mexican","Italian","Bhutanese","Nepalese","American"]
+        enum: ["Chinese","Indian","Mexican","Italian","Bhutanese","Nepalese","American"],
     },
     productType: {
+        type: String,
         default: "veg",
         enum: ["veg", "non-veg"]
     },
     image: {
         type: String,
+        default: ""
     },
 })
 

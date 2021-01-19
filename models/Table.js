@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const TableSchema = mongoose.Schema({
+const TableSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true
@@ -18,6 +18,7 @@ const TableSchema = mongoose.Schema({
         enum: [1, 2, 3, 4]
     },
     mode: {
+        type: String,
         default: "offline",
         enum: ["offline", "online"]
     },

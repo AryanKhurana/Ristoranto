@@ -5,10 +5,14 @@ const connectDB = require("./config/db")
 const path = require('path')
 const dotenv = require('dotenv')
 const exphbs = require('express-handlebars')
-const passport=require('passport')
+const session = require('express-session')
+const passport = require('passport')
+const MongoStore = require('connect-mongo')(session) 
 
 // This simply sets the environment file  
 dotenv.config({ path: './config/config.env' })
+
+require('./config/passport')(passport);
 
 // Database Connection
 connectDB()
@@ -27,11 +31,25 @@ app.engine('.hbs', exphbs({
 
 app.set('view engine', '.hbs')
 
+// Sessions
+app.use(session({
+    secret: 'dfssjlakjlkja',
+    resave: false,
+    saeUninitiated: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+}))
+
+// Passport Middleware
+app.use(passport.initialize())
+app.use(passport.session())
+
 // This sets the static folder
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Setting up the routes
 app.use('/', require('./routes/index'))
+app.use('/admin', require('./routes/admin'))
+app.use('/auth', require('./routes/auth'))
 
 // This sets the port
 const port = process.env.PORT || 5000
