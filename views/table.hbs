@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+        integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+        crossorigin="anonymous" />
+    {{!-- <link rel="stylesheet" href="/css/login.css"> --}}
+    <title>Ristoranto</title>
+</head>
+
+<body>
+
+    <form action="/table" method="POST" style="width: 300px">
+        Validation Errors
+        <input type="text" name="firstName" value="" placeholder="First Name">
+        <input type="text" name="lastName" value="" placeholder="Last Name">
+        <input type="text" name="email" value="" placeholder="Email">
+        <select name="persons" id="persons">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        
+        <input type="date" name="date" placeholder="Enter date of arrival!">
+        
+        <select name="time" id="time">
+            <option value="10">10 A.M - 11 A.M</option>
+            <option value="11">11 A.M - 12 P.M</option>
+            <option value="12">12 P.M - 1 P.M</option>
+            <option value="13">1 P.M - 2 P.M</option>
+            <option value="14">2 P.M - 3 P.M</option>
+            <option value="15">3 P.M - 4 P.M</option>
+            <option value="16">4 P.M - 5 P.M</option>
+            <option value="17">5 P.M - 6 P.M</option>
+            <option value="18">6 P.M - 7 P.M</option>
+            <option value="19">7 P.M - 8 P.M</option>
+            <option value="20">8 P.M - 9 P.M</option>
+            <option value="21">9 P.M - 10 P.M</option>
+        </select>
+        
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        <button type="submit">Book!</button>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.15.1/ckeditor.js" integrity="sha512-aThGT4RJc95+zt2vrs8iMjrFpsJxcFclp7tweVls6/3cNo3GWvGvtLV576o8Kdvdf3fJhrrG3wkmoea/KJMLFQ==" crossorigin="anonymous"></script>
+
+    <script>
+        M.FormSelect.init(document.querySelector('#persons'))
+        M.FormSelect.init(document.querySelector('#mode'))
+        M.FormSelect.init(document.querySelector('#time'))
+    </script>
+</body>
+
+</html>

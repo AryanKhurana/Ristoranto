@@ -8,6 +8,7 @@ const exphbs = require('express-handlebars')
 const session = require('express-session')
 const passport = require('passport')
 const MongoStore = require('connect-mongo')(session) 
+const flash = require('connect-flash')
 
 // This simply sets the environment file  
 dotenv.config({ path: './config/config.env' })
@@ -36,12 +37,15 @@ app.use(session({
     secret: 'dfssjlakjlkja',
     resave: false,
     saeUninitiated: false,
+    saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }))
 
 // Passport Middleware
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(flash())
 
 // This sets the static folder
 app.use(express.static(path.join(__dirname, 'public')))

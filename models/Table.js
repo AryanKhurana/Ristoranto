@@ -14,22 +14,22 @@ const TableSchema = new mongoose.Schema({
         required: true,
     },
     persons: {
+        type: Number,
         default: 1,
         enum: [1, 2, 3, 4]
-    },
-    mode: {
-        type: String,
-        default: "offline",
-        enum: ["offline", "online"]
     },
     bookedAt: {
         type: Date,
         default: Date.now
     },
-    orders: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product'
-    }],
+    date: {
+        type: Date,
+        required: true,
+    },
+    time: {
+        type: String,
+        required: true
+    },
     money: {
         type: Number,
         default: 0

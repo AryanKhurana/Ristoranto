@@ -1,0 +1,362 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,500&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Poppins, sans-serif;
+    /* color: black!important;     */
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.header {
+    width: 100%;
+    height: 100vh;
+}
+
+.header nav {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0 40px;
+    box-shadow: none;
+}
+
+.header nav .nav-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header nav .nav-wrapper .brand-logo {
+    position: relative;
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+}
+
+.header nav .nav-wrapper .brand-logo span {
+    color: #fcaeae!important;
+}
+
+.header nav .nav-wrapper ul li a {
+    font-weight: 600;
+    color: black;
+}
+
+.header nav .nav-wrapper ul li .bookTable {
+    display: inline;
+    width: fit-content;
+    padding: 9px 30px;
+    height: 40px;
+    border: 1px solid #fcaeae;
+    border-radius: 20px;
+}
+
+.header nav .nav-wrapper ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fcaeae;
+}
+
+.header nav .nav-wrapper ul li .login {
+    padding: 0 30px;
+}
+
+.header .sidenav {
+    width: 200px;
+}
+
+.header .sidenav li a {
+    /* text-align: center; */
+    padding: 0 22px;
+    font-weight: 600;
+}
+
+.header div div.row .section {
+    padding: 20px;
+}
+
+.header div div.row .section .heading {
+    font-size: 40px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.header div div.row .section .content {
+    color: #777777;
+    margin-bottom: 50px;
+}
+
+.header div div.row .section .exploreNow {
+    /* border: 1px solid black; */
+    padding: 12px 35px;
+    border-radius: 23px;
+    font-weight: 600;
+    font-size: 15px;
+    background-color: #f76969;
+    color: white;
+}
+
+.header div div.row .section .exploreNow:hover {
+    /* border: 1px solid #f76969; */
+    background-color: white;
+    color: #fcaeae;
+    box-shadow: 0 0 3px 3px rgba(247, 105, 105, 0.3);
+}
+
+section.services {
+    text-align: center;
+    width: 100%;
+}
+
+.services .box-row {
+    display: flex;
+    margin-top: 50px;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.services .container .box-row .card {
+    text-align: center;
+    width: 400px;
+    display: block;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    align-content: center;
+    height: auto;
+    padding: 30px 20px;
+    margin: 20px;
+    box-shadow: none;
+    border: none;
+}
+
+.services .container .box-row .card:hover {
+    transform: translateY(-10px);
+    transform: translateZ(10px);
+    transform: translate3d(0, -10px, 10px);
+    background-color: #f59292;
+}
+
+.services .container .box-row .card:hover svg {
+    color: white;
+    fill: white;
+}
+
+.services .container .box-row .card:hover h3 {
+    color: white;
+}
+
+.services .container .box-row .card:hover p {
+    color: white;
+}
+
+.services .container .box-row .card svg {
+    margin: auto;
+    width: 70px;
+    height: 70px;
+    color: #f76969;
+    fill: #f76969;
+}
+
+.services .container .box-row .card h3 {
+    margin: 10px 0;
+    font-size: 19px;
+}
+
+.services .container .box-row .card p {
+    color: #777777;
+    font-size: 14px;
+}
+
+.chefs {
+    margin-top: 50px;
+    text-align: center;
+    width: 100%;
+}
+
+.chefs .container {
+    /* width: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    /* margin: 40px 0; */
+    margin-top: 40px;
+}
+
+.chefs .container .card {
+    position: relative;
+    width: 300px;
+    height: 350px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    /* border-radius: 15px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.chefs .container .card:hover .content {
+    opacity: 1;
+    transform: translateY(-20px);
+}
+
+.chefs .container .card .content .imgBx {
+    position: relative;
+    margin: auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 30px!important;
+}
+
+.chefs .container .card .content imgBx img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.chefs .container .card .content .contentBx h3 {
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: center;
+    margin: 20px 0 20px;
+    line-height: 1.1rem;
+    border-radius: 0;
+}
+
+.chefs .container .card .content .contentBx h3 span {
+    font-size: 12px;
+    font-weight: 300;
+    text-transform: initial;
+}
+
+.chefs .container .card .sci {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+}
+
+.chefs .container .card .sci li {
+    list-style: none;
+    margin: 0 10px;
+    transform: translateY(40px);
+    transition: 0.5s;
+    opacity: 0;
+    transition-delay: calc(0.1s*var(--i));
+}
+
+.chefs .container .card:hover .sci li {
+    transform: translateY(20px);
+    opacity: 1;
+}
+
+.chefs .container .card .sci li a {
+    color: #000;
+    font-size: 24px;
+}
+
+.footer {
+    width: 100%;
+    margin-top: 50px;
+    padding: 50px 100px;
+}
+
+.footer .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.footer .container .content .brand-logo {
+    position: relative;
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+}
+
+.footer .container .content .brand-logo span {
+    color: #fcaeae!important;
+}
+
+.footer .container .content div.icons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.footer .container .content div.icons a {
+    font-size: 1.5rem;
+    color: #fcaeae;
+    margin: 10px;
+}
+
+.footer .container .services .title {
+    font-size: 22px;
+    color: #000;
+    text-align: left;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.footer .container .services ul li {
+    color: #777777;
+    margin: 6px 0;
+}
+
+.footer .container .services ul li a {
+    color: #777777;
+    font-size: 16px;
+}
+
+.footer .container .services ul li:hover a {
+    color: #f59292;
+}
+
+.footer .container .address .title {
+    font-size: 22px;
+    color: #000;
+    text-align: left;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.footer .container .address ul li {
+    color: #777777;
+    margin: 6px 0;
+    font-size: 16px;
+}
+
+@media (max-width: 600px) {
+    .header .row {
+        margin-top: 100px!important;
+    }
+    .footer .container .content {
+        margin-bottom: 50px;
+    }
+    .footer .container .services {
+        margin-bottom: 50px;
+    }
+}

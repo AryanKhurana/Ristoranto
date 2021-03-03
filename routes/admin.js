@@ -11,7 +11,7 @@ router.get('/', ensureGuest, (req, res) => {
     })
 })
 
-router.post("/addProduct",ensureAuth, validateProductRequest, isProductRequestValidted,async (req, res) => {
+router.post("/addProduct", validateProductRequest, isProductRequestValidted, async (req, res) => {
     product = Product.findOne({ name: req.body.name }).exec((error, product) => {
         if(product){
             return res.status(400).json({
