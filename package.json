@@ -26,7 +26,8 @@
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "stripe": "^8.137.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
