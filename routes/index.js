@@ -21,6 +21,7 @@ router.get('/', (req, res) => {
         'layout': 'basic'
     });
 })
+
 router.get('/cart', async(req, res) => {
     try {
         // carts = await CartItem.find({ "user": req.session.user }).lean()
@@ -32,6 +33,8 @@ router.get('/cart', async(req, res) => {
         })
     } catch (err) {
         console.error(err + '*****')
+
+
     }
 })
 router.get('/about', function(req, res) {
