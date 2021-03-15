@@ -21,17 +21,20 @@ router.get('/', (req, res) => {
         'layout': 'basic'
     });
 })
-router.get('/cart',(req,res)=>{
+
+router.get('/cart', async(req, res) => {
     try {
-        carts=await CartItem.find({"user":req.session.user}).lean()
+        // carts = await CartItem.find({ "user": req.session.user }).lean()
+        carts = await Product.find().lean()
         res.render('cart', {
             'layout': 'basic',
-            'carts': carts,
+            'products': carts,
             csrfToken: req.csrfToken(),
         })
-    } 
-    catch (err) {
-        console.error(err+'*****')
+    } catch (err) {
+        console.error(err + '*****')
+
+
     }
 })
 router.get('/about', function(req, res) {
@@ -272,19 +275,19 @@ router.post('/checkout/', (req, res, next) => {
     });
 });
 
-router.get('/cart', (req, res) => {
-    try {
-        products = await Product.find().lean()
-        res.render('menu', {
-            'layout': 'basic',
-            'products': products,
-            'sortby': 0,
-            csrfToken: req.csrfToken(),
-        })
-    } catch (err) {
-        console.error(err)
-    }
-})
+// router.get('/cart', async(req, res) => {
+//     try {
+//         products = await Product.find().lean()
+//         res.render('menu', {
+//             'layout': 'basic',
+//             'products': products,
+//             'sortby': 0,
+//             csrfToken: req.csrfToken(),
+//         })
+//     } catch (err) {
+//         console.error(err)
+//     }
+// })
 
 // router.post('/cart', async(req, res) => {
 //     let recID = req.body.proid
