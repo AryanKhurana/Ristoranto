@@ -6,13 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="/css/cart.css">
-    <!-- font awesome -->
     <script src="https://kit.fontawesome.com/dbed6b6114.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/cart.css">
 </head>
 
 <body>
+
     <div class="product-cart">
         <div class="container">
             <h3 class="lg-title main-head">
@@ -20,40 +19,75 @@
             </h3>
 
             <div class="cart-collection">
-                {{#each cartItem}}
-                    <div class="cart-item">
-                        <div class="cart-product">
-                            <div class="cart-image" style="background-image: url('./vada.jpg');"></div>
-                            <div class="cart-product-info">
-                                <p class="">Furniture Collace collection</p>
-                                <p class="cart-price-sm">$1,250</p>
-                            </div>
-                        </div>
-                        <div class="cart-quantity">
-                            <div class="cart-quantity-controls">
-                                <button>-</button>
-                                <input type="number" value="1" readonly>
-                                <button>+</button>
-                            </div>
-                        </div>
-                        <div class="cart-total-price">
-                            <h4>$1,250</h4>
-                        </div>
-                        <div class="remove">
-                            <p><i class="fas fa-trash-alt"></i>Remove</p>
+                {{#each products}}
+                <div class="cart-item">
+                    <div class="cart-product">
+                        <div class="cart-image" style="background-image: url('./vada.jpg');"></div>
+                        <div class="cart-product-info">
+                            <p class="">{{name}}</p>
+                            <p class="cart-price-sm">Rs. <span class="{{name}}">{{price}}</span></p>
                         </div>
                     </div>
+                    <div class="cart-quantity">
+                        <div class="cart-quantity-controls">
+                            <button onclick="decrement(this)" id="{{name}}">-</button>
+                            <input type="number" value="1" class="{{name}}" readonly>
+                            <button onclick="increment(this)" id="{{name}}">+</button>
+                        </div>
+                    </div>
+                    <div class="cart-total-price">
+                        <h4>Rs. <span class="{{name}}">{{price}}</span></h4>
+                    </div>
+                    <div class="remove">
+                        <p><i class="fas fa-trash-alt"></i>Remove</p>
+                    </div>
+                </div>
                 {{/each}}
             </div>
             <div class="place_order">
                 <button>Proceed To Buy</button>
                 <div class="total">
-                    <h4>Total: <span>$1,000</span></h4>
+                    <h4>Total: Rs. <span></span></h4>
                 </div>
             </div>
         </div>
     </div>
+    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> --}}
+    
 
+    <script>
+        function increment(item){
+            var x = document.querySelector('input.' + item.id);
+            var y = document.querySelector('.cart-total-price h4 span.' + item.id);
+            var z = document.querySelector('.cart-product-info p span.' + item.id);
+
+            x.value = parseInt(x.value) + 1;
+            y.innerHTML = parseInt(z.innerHTML)*x.value;
+            document.querySelector('.total h4 span').innerHTML = parseInt(document.querySelector('.total h4 span').innerHTML) + parseInt(z.innerHTML);
+        }
+        function decrement(item){
+            var x = document.querySelector('input.' + item.id);
+            var y = document.querySelector('.cart-total-price h4 span.' + item.id);
+            var z = document.querySelector('.cart-product-info p span.' + item.id);
+            
+
+            if(x.value > 0){
+                x.value = parseInt(x.value) - 1;
+                document.querySelector('.total h4 span').innerHTML = parseInt(document.querySelector('.total h4 span').innerHTML) - parseInt(z.innerHTML);
+            }
+
+            y.innerHTML = parseInt(z.innerHTML)*x.value;
+        }
+
+        // Calculating Total Price
+        var z = document.querySelectorAll('.cart-total-price h4 span')
+        var sum = 0;
+        for(let i=0; i<z.length; i++){
+            sum += parseInt(z[i].innerHTML)
+        }
+        document.querySelector('.total h4 span').innerHTML = sum;
+        
+    </script>
 </body>
 
 </html>

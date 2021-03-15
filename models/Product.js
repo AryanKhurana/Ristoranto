@@ -16,7 +16,7 @@ const ProductSchema = new mongoose.Schema({
     cuisine: {
         type: String,
         default: "Indian",
-        enum: ["Chinese","Indian","Mexican","Italian","Bhutanese","Nepalese","American"],
+        enum: ["Chinese", "Indian", "Mexican", "Italian", "Bhutanese", "Nepalese", "American"],
     },
     productType: {
         type: String,

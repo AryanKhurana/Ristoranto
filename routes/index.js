@@ -6,9 +6,13 @@ const Table = require('../models/Table')
 const User = require('../models/User')
 const moment = require('moment')
 const { check, validationResult } = require('express-validator')
+const CartItem = require('../models/CartItem')
 const tables = 20
 const csrfProtection = csrf()
-const { ensureAuth, ensureGuest } = require('../middleware/auth');
+    // Stripe
+const PUBLISHABLE_KEY = "pk_test_51ICkQ3Koy0nW0rNuHrLUZfbvh3eFsFrUUTVgGGavttDTvEhYPzEgXmrAyXPKk1F3lkcOARhpO3W3o9H35e2miMCY00FbaM4Jha"
+const SECRET_KEY = "sk_test_51ICkQ3Koy0nW0rNuyUXuevml6tnMab3ykOeRmZVCwlKK4b7o65DnZD0ZdHe2P3uRuzF1gyIfF8AXmYCzSVkrwN5V00aQkhdHsr"
+const stripe = require('stripe')(SECRET_KEY)
 
 router.use(csrfProtection)
 
@@ -17,18 +21,19 @@ router.get('/', (req, res) => {
         'layout': 'basic'
     });
 })
-
-router.get('/login', ensureGuest, (req, res) => {
-    res.render('login', {
-        'layout': 'basic'
-    })
+router.get('/cart', async(req, res) => {
+    try {
+        // carts = await CartItem.find({ "user": req.session.user }).lean()
+        carts = await Product.find().lean()
+        res.render('cart', {
+            'layout': 'basic',
+            'products': carts,
+            csrfToken: req.csrfToken(),
+        })
+    } catch (err) {
+        console.error(err + '*****')
+    }
 })
-
-router.get('/logout', (req, res) => {
-    req.logout()
-    res.redirect('/')
-})
-
 router.get('/about', function(req, res) {
     res.render('ristoranto', {
         'layout': 'basic'
@@ -267,19 +272,19 @@ router.post('/checkout/', (req, res, next) => {
     });
 });
 
-router.get('/cart', async(req, res) => {
-    try {
-        products = await Product.find().lean()
-        res.render('menu', {
-            'layout': 'basic',
-            'products': products,
-            'sortby': 0,
-            csrfToken: req.csrfToken(),
-        })
-    } catch (err) {
-        console.error(err)
-    }
-})
+// router.get('/cart', async(req, res) => {
+//     try {
+//         products = await Product.find().lean()
+//         res.render('menu', {
+//             'layout': 'basic',
+//             'products': products,
+//             'sortby': 0,
+//             csrfToken: req.csrfToken(),
+//         })
+//     } catch (err) {
+//         console.error(err)
+//     }
+// })
 
 // router.post('/cart', async(req, res) => {
 //     let recID = req.body.proid

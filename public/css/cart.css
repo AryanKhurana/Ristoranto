@@ -122,6 +122,8 @@ div.products_list_div {
 .cart-product {
     display: flex;
     flex-direction: row;
+    max-width: 400px;
+    min-width: 400px;
 }
 
 .cart-image {
@@ -192,6 +194,13 @@ div.products_list_div {
     font-weight: bold;
     font-size: 1.1rem;
     color: #505050;
+}
+
+.cart-quantity-controls input {
+    min-width: 30px;
+    width: fit-content;
+    max-width: 50px;
+    background-color: transparent;
 }
 
 .cart-quantity-controls button {
