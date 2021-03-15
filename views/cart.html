@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    
     <div class="product-cart">
         <div class="container">
             <h3 class="lg-title main-head">
@@ -20,13 +21,13 @@
             </h3>
 
             <div class="cart-collection">
-                {{#each cartItem}}
+                {{#each carts}}
                     <div class="cart-item">
                         <div class="cart-product">
                             <div class="cart-image" style="background-image: url('./vada.jpg');"></div>
                             <div class="cart-product-info">
-                                <p class="">Furniture Collace collection</p>
-                                <p class="cart-price-sm">$1,250</p>
+                                <p class="">{{product.name}}</p>
+                                <p class="cart-price-sm">{{product.price}}</p>
                             </div>
                         </div>
                         <div class="cart-quantity">
@@ -37,7 +38,7 @@
                             </div>
                         </div>
                         <div class="cart-total-price">
-                            <h4>$1,250</h4>
+                            <h4>{{product.price}}</h4>
                         </div>
                         <div class="remove">
                             <p><i class="fas fa-trash-alt"></i>Remove</p>

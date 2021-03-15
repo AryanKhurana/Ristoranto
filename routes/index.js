@@ -6,6 +6,7 @@ const Table = require('../models/Table')
 const User = require('../models/User')
 const moment = require('moment')
 const { check, validationResult } = require('express-validator')
+const CartItem = require('../models/CartItem')
 const tables = 20
 const csrfProtection = csrf()
     // Stripe
@@ -19,6 +20,19 @@ router.get('/', (req, res) => {
     res.render('home', {
         'layout': 'basic'
     });
+})
+router.get('/cart',(req,res)=>{
+    try {
+        carts=await CartItem.find({"user":req.session.user}).lean()
+        res.render('cart', {
+            'layout': 'basic',
+            'carts': carts,
+            csrfToken: req.csrfToken(),
+        })
+    } 
+    catch (err) {
+        console.error(err+'*****')
+    }
 })
 router.get('/about', function(req, res) {
     res.render('ristoranto', {
