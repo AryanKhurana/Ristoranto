@@ -22,10 +22,10 @@
                     <table class="elementsContainer">
                         <tr>
                             <td>
-                                <input type="text" placeholder="Search" class="search">
+                                <input type="text" placeholder="Search" class="search" name="search_input">
                             </td>
                             <td>
-                                <a href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                <a class="search_href" href=""><i class="fa fa-search" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     </table>
@@ -37,37 +37,74 @@
                 </div>
 
                 <div class="featured">
+                    {{#sortBySelect sortby 1}}
                         <a class="featured"><span>Price: Low To High</span>
                             <i class="fas fa-angle-down"></i>
                         </a>
+                    {{/sortBySelect}}
+                    {{#sortBySelect sortby 2}}
+                        <a class="featured"><span>Price: High To Low</span>
+                            <i class="fas fa-angle-down"></i>
+                        </a>
+                    {{/sortBySelect}}
+                    {{#sortBySelect sortby 3}}
+                        <a class="featured"><span>Ascending: A to Z</span>
+                            <i class="fas fa-angle-down"></i>
+                        </a>
+                    {{/sortBySelect}}
+                    {{#sortBySelect sortby 4}}
+                        <a class="featured"><span>Ascending: Z to A</span>
+                            <i class="fas fa-angle-down"></i>
+                        </a>
+                    {{/sortBySelect}}
+                    {{#sortBySelect sortby 0}}
+                        <a class="featured"><span>Featured</span>
+                            <i class="fas fa-angle-down"></i>
+                        </a>
+                    {{/sortBySelect}}
+
+
                     <svg class="featured_svg" viewBox="0 0 20 9" role="presentation">
                         <path
                             d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z"
                             fill="#ffffff"></path>
                     </svg>
                     <div class="dropdown-content">
+                        {{#sortBySelect sortby 1}}
+                            <a href="/menu/1" id="feature0" class="active" onclick="addNewFeature(this)">Price: Low To High</a>
+                            <a href="/menu/2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
+                            <a href="/menu/3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
+                            <a href="/menu/4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                        {{/sortBySelect}}
+                        {{#sortBySelect sortby 2}}
                             <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
-                            <a href="#" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
-                            <a href="#" id="feature2" class="active" onclick="addNewFeature(this)">Ascending: A to Z</a>
-                            <a href="#" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                            <a href="/menu/2" id="feature1" class="active" onclick="addNewFeature(this)">Price: High To Low</a>
+                            <a href="/menu/3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
+                            <a href="/menu/4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                        {{/sortBySelect}}
+                        {{#sortBySelect sortby 3}}
+                            <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
+                            <a href="/menu/2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
+                            <a href="/menu/3" id="feature2" class="active" onclick="addNewFeature(this)">Ascending: A to Z</a>
+                            <a href="/menu/4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                        {{/sortBySelect}}
+                        {{#sortBySelect sortby 4}}
+                            <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
+                            <a href="/menu/2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
+                            <a href="/menu/3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
+                            <a href="/menu/4" id="feature3" class="active" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                        {{/sortBySelect}}
+                        {{#sortBySelect sortby 0}}
+                            <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
+                            <a href="/menu/2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
+                            <a href="/menu/3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
+                            <a href="/menu/4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                        {{/sortBySelect}}
                     </div>
                 </div>
             </div>
 
             <div class="filter-section">
-                <div class="sort-section-wrapper">
-                    <h5 class="filter-title">
-                        Sort By
-                    </h5>
-                    <div class="sort">
-                        <ul class="sort_list">
-                            <li><a href="#">Price: Low To High</a></li>
-                            <li><a href="#">Price: High To Low</a></li>
-                            <li><a href="#">Alphabetically, A-Z</a></li>
-                            <li><a href="#">Alphabetically, A-Z</a></li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="price-section-wrapper">
                     <h5 class="filter-title">
                         By Price
@@ -139,265 +176,6 @@
                     </div>
                 </div>
                 {{/each}}
-
-                <!-- single product -->
-                {{!-- <div class="product">
-                    <div class="product-content">
-                        <img src="./veggie-pizza-3-1.jpg" alt="product image">
-                        <div class="product-btns">
-                            <a href="#" class="btn-cart">
-                                <span class="btn-text">Quick view</span>
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            <a href="#" class="btn-buy">
-                                <span class="btn-text">Quick Shop</span>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="product-info">
-                        <div class="product-info-top">
-                            <h2 class="sm-title">italian cuisine</h2>
-                            <div class="rating">
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="far fa-star"></i></span>
-                            </div>
-                        </div>
-                        <a href="#" class="product-name">pizza</a>
-                        <p class="product-price">Rs 15.00</p>
-                        <p class="product-price">Rs 13.00</p>
-                    </div>
-                </div>
-                <!-- end of single product -->
-                <!-- single product -->
-                <div class="product">
-                    <div class="product-content">
-                        <img src="./vada.jpg" alt="product image">
-                        <div class="product-btns">
-                            <a href="#" class="btn-cart">
-                                <span class="btn-text">Quick view</span>
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            <a href="#" class="btn-buy">
-                                <span class="btn-text">Quick Shop</span>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="product-info">
-                        <div class="product-info-top">
-                            <h2 class="sm-title">italian cuisine</h2>
-                            <div class="rating">
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="far fa-star"></i></span>
-                            </div>
-                        </div>
-                        <a href="#" class="product-name">pizza</a>
-                        <p class="product-price">Rs 15.00</p>
-                        <p class="product-price">Rs 13.00</p>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product-content">
-                        <img src="./veggie-pizza-3-1.jpg" alt="product image">
-                        <div class="product-btns">
-                            <a href="#" class="btn-cart">
-                                <span class="btn-text">Quick view</span>
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            <a href="#" class="btn-buy">
-                                <span class="btn-text">Quick Shop</span>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="product-info">
-                        <div class="product-info-top">
-                            <h2 class="sm-title">italian cuisine</h2>
-                            <div class="rating">
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="far fa-star"></i></span>
-                            </div>
-                        </div>
-                        <a href="#" class="product-name">pizza</a>
-                        <p class="product-price">Rs 15.00</p>
-                        <p class="product-price">Rs 13.00</p>
-                    </div>
-                </div>
-                <!-- end of single product -->
-                <!-- single product -->
-                <div class="product">
-                    <div class="product-content">
-                        <img src="./vada.jpg" alt="product image">
-                        <div class="product-btns">
-                            <a href="#" class="btn-cart">
-                                <span class="btn-text">Quick view</span>
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            <a href="#" class="btn-buy">
-                                <span class="btn-text">Quick Shop</span>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="product-info">
-                        <div class="product-info-top">
-                            <h2 class="sm-title">italian cuisine</h2>
-                            <div class="rating">
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="far fa-star"></i></span>
-                            </div>
-                        </div>
-                        <a href="#" class="product-name">pizza</a>
-                        <p class="product-price">Rs 15.00</p>
-                        <p class="product-price">Rs 13.00</p>
-                    </div>
-                </div>
-
-                <div class="product">
-                    <div class="product-content">
-                        <img src="./veggie-pizza-3-1.jpg" alt="product image">
-                        <div class="product-btns">
-                            <a href="#" class="btn-cart">
-                                <span class="btn-text">Quick view</span>
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            <a href="#" class="btn-buy">
-                                <span class="btn-text">Quick Shop</span>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="product-info">
-                        <div class="product-info-top">
-                            <h2 class="sm-title">italian cuisine</h2>
-                            <div class="rating">
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="far fa-star"></i></span>
-                            </div>
-                        </div>
-                        <a href="#" class="product-name">pizza</a>
-                        <p class="product-price">Rs 15.00</p>
-                        <p class="product-price">Rs 13.00</p>
-                    </div>
-                </div>
-                <!-- end of single product -->
-                <!-- single product -->
-                <div class="product">
-                    <div class="product-content">
-                        <img src="./vada.jpg" alt="product image">
-                        <div class="product-btns">
-                            <a href="#" class="btn-cart">
-                                <span class="btn-text">Quick view</span>
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            <a href="#" class="btn-buy">
-                                <span class="btn-text">Quick Shop</span>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="product-info">
-                        <div class="product-info-top">
-                            <h2 class="sm-title">italian cuisine</h2>
-                            <div class="rating">
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="far fa-star"></i></span>
-                            </div>
-                        </div>
-                        <a href="#" class="product-name">pizza</a>
-                        <p class="product-price">Rs 15.00</p>
-                        <p class="product-price">Rs 13.00</p>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product-content">
-                        <img src="./veggie-pizza-3-1.jpg" alt="product image">
-                        <div class="product-btns">
-                            <a href="#" class="btn-cart">
-                                <span class="btn-text">Quick view</span>
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            <a href="#" class="btn-buy">
-                                <span class="btn-text">Quick Shop</span>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="product-info">
-                        <div class="product-info-top">
-                            <h2 class="sm-title">italian cuisine</h2>
-                            <div class="rating">
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="far fa-star"></i></span>
-                            </div>
-                        </div>
-                        <a href="#" class="product-name">pizza</a>
-                        <p class="product-price">Rs 15.00</p>
-                        <p class="product-price">Rs 13.00</p>
-                    </div>
-                </div>
-                <!-- end of single product -->
-                <!-- single product -->
-                <div class="product">
-                    <div class="product-content">
-                        <img src="./vada.jpg" alt="product image">
-                        <div class="product-btns">
-                            <a href="#" class="btn-cart">
-                                <span class="btn-text">Quick view</span>
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            <a href="#" class="btn-buy">
-                                <span class="btn-text">Quick Shop</span>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="product-info">
-                        <div class="product-info-top">
-                            <h2 class="sm-title">italian cuisine</h2>
-                            <div class="rating">
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="fas fa-star"></i></span>
-                                <span><i class="far fa-star"></i></span>
-                            </div>
-                        </div>
-                        <a href="#" class="product-name">pizza</a>
-                        <p class="product-price">Rs 15.00</p>
-                        <p class="product-price">Rs 13.00</p>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </div>
@@ -407,6 +185,10 @@
         crossorigin="anonymous"></script>
 
     <script>
+
+        document.querySelector('a.search_href').href = "?search=" + document.querySelector('.search').value;
+
+
         function openAndCloseFilter() {
             var x = $('.filter-section');
             if (!x.hasClass('active')) {

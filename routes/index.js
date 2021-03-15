@@ -50,10 +50,11 @@ router.get('/confirm', (req, res) => {
 router.get('/menu', async(req, res) => {
     try {
         products = await Product.find().lean()
-        console.log(products)
         res.render('menu', {
             'layout': 'basic',
-            'products': products
+            'products': products,
+            'sortby': 0,
+            csrfToken: req.csrfToken(),
         })
     } catch (err) {
         console.error(err)
@@ -63,10 +64,17 @@ router.get('/menu', async(req, res) => {
 router.get('/menu/:sortby', async(req, res) => {
     try {
         if (req.params.sortby == 1) {
-            console.log("Hii");
+            products = await Product.find().sort({ price: 1 }).lean()
+        } else if (req.params.sortby == 2) {
+            products = await Product.find().sort({ price: -1 }).lean()
+        } else if (req.params.sortby == 3)
+            products = await Product.find().sort({ name: 1 }).lean()
+        else if (req.params.sortby == 4)
+            products = await Product.find().sort({ name: -1 }).lean()
+        else {
+            products = await Product.find().lean()
         }
-        products = await Product.find().sort({ name: -1 }).lean()
-        console.log(products)
+
         res.render('menu', {
             'layout': 'basic',
             'products': products,
@@ -76,6 +84,24 @@ router.get('/menu/:sortby', async(req, res) => {
         console.error(err)
     }
 })
+
+router.post('/menu/:search', async(req, res) => {
+    try {
+        var regval = req.params.search;
+        console.log(regval);
+
+        res.render('menu', {
+            csrfToken: req.csrfToken(),
+            'layout': 'basic',
+            'products': products,
+            'sortby': 0
+        })
+    } catch (err) {
+        console.error(err)
+    }
+})
+
+
 
 
 
@@ -233,21 +259,31 @@ router.post('/checkout/', (req, res, next) => {
 });
 
 router.get('/cart', (req, res) => {
-    res.send("hiii")
+    try {
+        products = await Product.find().lean()
+        res.render('menu', {
+            'layout': 'basic',
+            'products': products,
+            'sortby': 0,
+            csrfToken: req.csrfToken(),
+        })
+    } catch (err) {
+        console.error(err)
+    }
 })
 
-router.post('/cart', async(req, res) => {
-    let recID = req.body.proid
-    const product = Product.find({ "_id": recID })
-    const cartItem = new CartItem({ "product": product })
+// router.post('/cart', async(req, res) => {
+//     let recID = req.body.proid
+//     const product = Product.find({ "_id": recID })
+//     const cartItem = new CartItem({ "product": product })
 
-    cartItem.save((err, data) => {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log(data)
-        }
-    })
-})
+//     cartItem.save((err, data) => {
+//         if (err) {
+//             console.log(err)
+//         } else {
+//             console.log(data)
+//         }
+//     })
+// })
 
 module.exports = router
