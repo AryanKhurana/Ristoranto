@@ -7,7 +7,7 @@ const dotenv = require('dotenv')
 const exphbs = require('express-handlebars')
 const session = require('express-session')
 const passport = require('passport')
-const MongoStore = require('connect-mongo')(session) 
+const MongoStore = require('connect-mongo')(session)
 const flash = require('connect-flash')
 
 // This simply sets the environment file  
@@ -21,11 +21,16 @@ connectDB()
 const app = express()
 
 // This is used to get the data from the body 
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+
+const { sortBySelect } = require('./helpers/hbs')
 
 // This sets the engine to .hbs
 app.engine('.hbs', exphbs({
+    helpers: {
+        sortBySelect,
+    },
     defaultLayout: 'main',
     extname: '.hbs'
 }));
