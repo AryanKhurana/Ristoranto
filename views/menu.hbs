@@ -37,59 +37,19 @@
                 </div>
 
                 <div class="featured">
-                    {{#if sortby == 1}}
                         <a class="featured"><span>Price: Low To High</span>
                             <i class="fas fa-angle-down"></i>
                         </a>
-                    {{else if sortby == 2}}
-                        <a class="featured"><span>Price: High To Low</span>
-                            <i class="fas fa-angle-down"></i>
-                        </a>
-                    {{else if sortby == 3}}
-                        <a class="featured"><span>Ascending: A to Z</span>
-                            <i class="fas fa-angle-down"></i>
-                        </a>
-                    {{else if sortby == 4}}
-                        <a class="featured"><span>Ascending: Z to A</span>
-                            <i class="fas fa-angle-down"></i>
-                        </a>
-                    {{else}}
-                        <a class="featured"><span>Featured</span>
-                            <i class="fas fa-angle-down"></i>
-                        </a>
-                    {{/if}}
                     <svg class="featured_svg" viewBox="0 0 20 9" role="presentation">
                         <path
                             d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z"
                             fill="#ffffff"></path>
                     </svg>
                     <div class="dropdown-content">
-                        {{#if sortby == 1}}
-                            <a href="/menu/1" class="active" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
-                            <a href="#" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
-                            <a href="#" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
-                            <a href="#" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
-                        {{else if sortby == 2}}
-                            <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
-                            <a href="#" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
-                            <a href="#" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
-                            <a href="#" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
-                        {{else if sortby == 3}}
-                            <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
-                            <a href="#" id="feature1" class="active" onclick="addNewFeature(this)">Price: High To Low</a>
-                            <a href="#" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
-                            <a href="#" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
-                        {{else if sortby == 4}}
                             <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
                             <a href="#" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
                             <a href="#" id="feature2" class="active" onclick="addNewFeature(this)">Ascending: A to Z</a>
                             <a href="#" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
-                        {{else}}
-                            <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
-                            <a href="#" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
-                            <a href="#" id="feature2" class="active" onclick="addNewFeature(this)">Ascending: A to Z</a>
-                            <a href="#" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
-                        {{/if}}
                     </div>
                 </div>
             </div>

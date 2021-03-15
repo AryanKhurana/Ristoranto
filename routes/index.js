@@ -20,7 +20,11 @@ router.get('/', (req, res) => {
         'layout': 'basic'
     });
 })
-
+router.get('/about', function(req, res) {
+    res.render('ristoranto', {
+        'layout': 'basic'
+    });
+})
 router.get('/confirm', (req, res) => {
     res.send("Arigato!")
 })
