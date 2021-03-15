@@ -4,8 +4,8 @@ const passport = require('passport')
 
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
 
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/admin' }), (req, res) => {
-    res.redirect('/admin/dashboard')
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+    res.redirect('/menu')
 })
 
 router.get('/logout', (req, res) => {

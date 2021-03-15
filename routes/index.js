@@ -8,10 +8,7 @@ const moment = require('moment')
 const { check, validationResult } = require('express-validator')
 const tables = 20
 const csrfProtection = csrf()
-    // Stripe
-const PUBLISHABLE_KEY = "pk_test_51ICkQ3Koy0nW0rNuHrLUZfbvh3eFsFrUUTVgGGavttDTvEhYPzEgXmrAyXPKk1F3lkcOARhpO3W3o9H35e2miMCY00FbaM4Jha"
-const SECRET_KEY = "sk_test_51ICkQ3Koy0nW0rNuyUXuevml6tnMab3ykOeRmZVCwlKK4b7o65DnZD0ZdHe2P3uRuzF1gyIfF8AXmYCzSVkrwN5V00aQkhdHsr"
-const stripe = require('stripe')(SECRET_KEY)
+const { ensureAuth, ensureGuest } = require('../middleware/auth');
 
 router.use(csrfProtection)
 
@@ -20,6 +17,18 @@ router.get('/', (req, res) => {
         'layout': 'basic'
     });
 })
+
+router.get('/login', ensureGuest, (req, res) => {
+    res.render('login', {
+        'layout': 'basic'
+    })
+})
+
+router.get('/logout', (req, res) => {
+    req.logout()
+    res.redirect('/')
+})
+
 router.get('/about', function(req, res) {
     res.render('ristoranto', {
         'layout': 'basic'
@@ -258,7 +267,7 @@ router.post('/checkout/', (req, res, next) => {
     });
 });
 
-router.get('/cart', (req, res) => {
+router.get('/cart', async(req, res) => {
     try {
         products = await Product.find().lean()
         res.render('menu', {
