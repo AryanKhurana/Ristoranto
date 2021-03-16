@@ -1,4 +1,30 @@
-const express = require('express')
+[10:32, 3/16/2021] Ankit Jaiswal: <!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/dbed6b6114.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/cart.css">
+</head>
+
+<body>
+
+    <div class="product-cart">
+        <div class="container">
+            <h3 class="lg-title main-head">
+                Shopping Cart
+            </h3>
+
+            <div class="cart-collection">
+                {{#each products}}
+                <div class="cart-item">
+                    <div class="cart-product">
+                        <div class="cart-image" style="background-image: url('.…
+[10:32, 3/16/2021] Aryan Khurana: 👌
+[10:32, 3/16/2021] Ankit Jaiswal: const express = require('express')
 const router = express.Router()
 const csrf = require('csurf')
 const Product = require('../models/Product')
@@ -21,7 +47,6 @@ router.get('/', (req, res) => {
         'layout': 'basic'
     });
 })
-
 router.get('/cart', async(req, res) => {
     try {
         // carts = await CartItem.find({ "user": req.session.user }).lean()
@@ -32,9 +57,7 @@ router.get('/cart', async(req, res) => {
             csrfToken: req.csrfToken(),
         })
     } catch (err) {
-        console.error(err + '*****')
-
-
+        console.error(err + '***')
     }
 })
 router.get('/about', function(req, res) {
