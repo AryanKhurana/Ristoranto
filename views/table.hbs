@@ -48,6 +48,7 @@
         </select>
 
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        <p class="cost">Price: <span></span></p>
         <button id="checkout-button">Checkout</button>
     </form>
 
@@ -60,6 +61,12 @@
         M.FormSelect.init(document.querySelector('#persons'))
         M.FormSelect.init(document.querySelector('#mode'))
         M.FormSelect.init(document.querySelector('#time'))
+    </script>
+
+    <script>
+        setInterval(() => {
+            document.querySelector('.cost span').innerHTML = parseInt(document.querySelector("#persons").value) * 50;
+        }, 1000)
     </script>
 
 

@@ -12,7 +12,6 @@
     <script src="https://kit.fontawesome.com/dbed6b6114.js" crossorigin="anonymous"></script>
 </head>
 
-<!-- Price, Sort by, cuisine, food preference(veg, nonveg) -->
 
 <body>
     <div class="products">
@@ -30,38 +29,38 @@
                         </tr>
                     </table>
                 </div>
-                <div class="filter-tag" onclick="openAndCloseFilter()">
+                {{!-- <div class="filter-tag" onclick="openAndCloseFilter()">
                     <a class="filter" href="#">
                         <i class="fas fa-filter"></i> Filter
                     </a>
-                </div>
+                </div> --}}
 
                 <div class="featured">
                     {{#sortBySelect sortby 1}}
-                        <a class="featured"><span>Price: Low To High</span>
-                            <i class="fas fa-angle-down"></i>
-                        </a>
+                    <a class="featured"><span>Price: Low To High</span>
+                        <i class="fas fa-angle-down"></i>
+                    </a>
                     {{/sortBySelect}}
                     {{#sortBySelect sortby 2}}
-                        <a class="featured"><span>Price: High To Low</span>
-                            <i class="fas fa-angle-down"></i>
-                        </a>
+                    <a class="featured"><span>Price: High To Low</span>
+                        <i class="fas fa-angle-down"></i>
+                    </a>
                     {{/sortBySelect}}
                     {{#sortBySelect sortby 3}}
-                        <a class="featured"><span>Ascending: A to Z</span>
-                            <i class="fas fa-angle-down"></i>
-                        </a>
+                    <a class="featured"><span>Ascending: A to Z</span>
+                        <i class="fas fa-angle-down"></i>
+                    </a>
                     {{/sortBySelect}}
                     {{#sortBySelect sortby 4}}
-                        <a class="featured"><span>Ascending: Z to A</span>
-                            <i class="fas fa-angle-down"></i>
-                        </a>
+                    <a class="featured"><span>Ascending: Z to A</span>
+                        <i class="fas fa-angle-down"></i>
+                    </a>
                     {{/sortBySelect}}
-                    {{#sortBySelect sortby 0}}
-                        <a class="featured"><span>Featured</span>
-                            <i class="fas fa-angle-down"></i>
-                        </a>
-                    {{/sortBySelect}}
+                    {{#unless sortby}}
+                    <a class="featured"><span>Featured</span>
+                        <i class="fas fa-angle-down"></i>
+                    </a>
+                    {{/unless}}
 
 
                     <svg class="featured_svg" viewBox="0 0 20 9" role="presentation">
@@ -71,40 +70,44 @@
                     </svg>
                     <div class="dropdown-content">
                         {{#sortBySelect sortby 1}}
-                            <a href="/menu/1" id="feature0" class="active" onclick="addNewFeature(this)">Price: Low To High</a>
-                            <a href="/menu/2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
-                            <a href="/menu/3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
-                            <a href="/menu/4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                        <a href="?sortby=1" id="feature0" class="active" onclick="addNewFeature(this)">Price: Low To
+                            High</a>
+                        <a href="?sortby=2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
+                        <a href="?sortby=3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
+                        <a href="?sortby=4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
                         {{/sortBySelect}}
                         {{#sortBySelect sortby 2}}
-                            <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
-                            <a href="/menu/2" id="feature1" class="active" onclick="addNewFeature(this)">Price: High To Low</a>
-                            <a href="/menu/3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
-                            <a href="/menu/4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                        <a href="?sortby=1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
+                        <a href="?sortby=2" id="feature1" class="active" onclick="addNewFeature(this)">Price: High To
+                            Low</a>
+                        <a href="?sortby=3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
+                        <a href="?sortby=4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
                         {{/sortBySelect}}
                         {{#sortBySelect sortby 3}}
-                            <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
-                            <a href="/menu/2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
-                            <a href="/menu/3" id="feature2" class="active" onclick="addNewFeature(this)">Ascending: A to Z</a>
-                            <a href="/menu/4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                        <a href="?sortby=1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
+                        <a href="?sortby=2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
+                        <a href="?sortby=3" id="feature2" class="active" onclick="addNewFeature(this)">Ascending: A to
+                            Z</a>
+                        <a href="?sortby=4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
                         {{/sortBySelect}}
                         {{#sortBySelect sortby 4}}
-                            <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
-                            <a href="/menu/2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
-                            <a href="/menu/3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
-                            <a href="/menu/4" id="feature3" class="active" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                        <a href="?sortby=1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
+                        <a href="?sortby=2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
+                        <a href="?sortby=3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
+                        <a href="?sortby=4" id="feature3" class="active" onclick="addNewFeature(this)">Ascending: Z to
+                            A</a>
                         {{/sortBySelect}}
-                        {{#sortBySelect sortby 0}}
-                            <a href="/menu/1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
-                            <a href="/menu/2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
-                            <a href="/menu/3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
-                            <a href="/menu/4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
-                        {{/sortBySelect}}
+                        {{#unless sortby}}
+                        <a href="?sortby=1" id="feature0" onclick="addNewFeature(this)">Price: Low To High</a>
+                        <a href="?sortby=2" id="feature1" onclick="addNewFeature(this)">Price: High To Low</a>
+                        <a href="?sortby=3" id="feature2" onclick="addNewFeature(this)">Ascending: A to Z</a>
+                        <a href="?sortby=4" id="feature3" onclick="addNewFeature(this)">Ascending: Z to A</a>
+                        {{/unless}}
                     </div>
                 </div>
             </div>
 
-            <div class="filter-section">
+            {{!-- <div class="filter-section">
                 <div class="price-section-wrapper">
                     <h5 class="filter-title">
                         By Price
@@ -142,27 +145,29 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="search-results">
+            {{!-- <div class="search-results">
                 <div class="result_html"><span class="cp">7</span> Products Found</div>
                 <a href="#" class="clear_filter dib bf_icons" aria-label="Remove tag Price  $50-$150">Price $50 $150</a>
-            </div>
+            </div> --}}
 
             <div class="product-items">
 
                 {{#each products}}
                 <div class="product">
                     <div class="product-content">
-                        <img src="http://localhost:3000/images/vadapav.jpg" alt="product image">
+                        {{!-- <img src="http://localhost:3000/images/vadapav.jpg" alt="product image"> --}}
+                        <img src="{{image}}" alt="product image">
                         <div class="product-btns">
-                            <a href="#" class="btn-cart">
-                                <span class="btn-text">Quick view</span>
+                            {{!-- <a href="#" class="btn-cart">
+                                <span class="btn-text">Add to Cart</span>
                                 <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            <a href="#" class="btn-buy">
-                                <span class="btn-text">Quick Shop</span>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </a> --}}
+                            <a href="/addToCart/{{_id}}" class="btn-buy">
+                                <span class="btn-text">Add to cart</span>
+                                <i class="fas fa-shopping-cart"></i>
+                                {{!-- <i class="fa fa-eye" aria-hidden="true"></i> --}}
                             </a>
                         </div>
                     </div>
@@ -186,8 +191,62 @@
 
     <script>
 
-        document.querySelector('a.search_href').href = "?search=" + document.querySelector('.search').value;
+        setInterval(() => {
 
+            if (window.location.href.includes('?')) {
+                if (window.location.href.includes("?search=")) {
+                    if (!window.location.href.includes("&sortby=")) {
+                        var mySubString = window.location.href.substring(
+                            window.location.href.lastIndexOf("?"),
+                            window.location.href.length - 1
+                        );
+                        document.querySelector('.search_href').href = window.location.href.replace(mySubString, "?search=" + document.querySelector('.search').value);
+                    } else {
+                        var mySubString = window.location.href.substring(
+                            window.location.href.lastIndexOf("?"),
+                            window.location.href.lastIndexOf("&sortby")
+                        );
+                        document.querySelector('.search_href').href = window.location.href.replace(mySubString, "?search=" + document.querySelector('.search').value);
+                    }
+                }
+                else if (window.location.href.includes("&search=")) {
+                    var mySubString = window.location.href.substring(
+                        window.location.href.lastIndexOf("?"),
+                        window.location.href.length - 1
+                    );
+                    document.querySelector('.search_href').href = window.location.href.replace(mySubString, "&search=" + document.querySelector('.search').value);
+                }
+            }
+            else {
+                document.querySelector('.search_href').href = "?search=" + document.querySelector('.search').value;
+            }
+        }, 1000);
+
+        if (window.location.href.includes('?')) {
+            var x = document.querySelectorAll('.dropdown-content a');
+            for (let i = 0; i < x.length; i++) {
+                if (!window.location.href.includes('sortby=4') && !window.location.href.includes('sortby=3') && !window.location.href.includes('sortby=2') && !window.location.href.includes('sortby=1')) {
+                    var p = String(parseInt((x[i].id).slice(-1)) + 1);
+                    x[i].href = window.location.href + "&sortby=" + p;
+                }
+                else {
+                    var p = String(parseInt((x[i].id).slice(-1)) + 1);
+                    if (window.location.href.includes("sortby=" + p)) {
+                        console.log("Hii")
+                        x[i].href = window.location.href;
+                        x[i].href = x[i].href.replace("&sortby=" + p, "");
+                        x[i].href = x[i].href.replace("?sortby=" + p, "");
+                    }
+                    else {
+                        x[i].href = window.location.href;
+                        x[i].href = x[i].href.replace("sortby=1", "sortby=" + p);
+                        x[i].href = x[i].href.replace("sortby=2", "sortby=" + p);
+                        x[i].href = x[i].href.replace("sortby=4", "sortby=" + p);
+                        x[i].href = x[i].href.replace("sortby=3", "sortby=" + p);
+                    }
+                }
+            }
+        }
 
         function openAndCloseFilter() {
             var x = $('.filter-section');

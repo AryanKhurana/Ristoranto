@@ -1,30 +1,4 @@
-[10:32, 3/16/2021] Ankit Jaiswal: <!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://kit.fontawesome.com/dbed6b6114.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/css/cart.css">
-</head>
-
-<body>
-
-    <div class="product-cart">
-        <div class="container">
-            <h3 class="lg-title main-head">
-                Shopping Cart
-            </h3>
-
-            <div class="cart-collection">
-                {{#each products}}
-                <div class="cart-item">
-                    <div class="cart-product">
-                        <div class="cart-image" style="background-image: url('.…
-[10:32, 3/16/2021] Aryan Khurana: 👌
-[10:32, 3/16/2021] Ankit Jaiswal: const express = require('express')
+const express = require('express')
 const router = express.Router()
 const csrf = require('csurf')
 const Product = require('../models/Product')
@@ -35,10 +9,7 @@ const { check, validationResult } = require('express-validator')
 const CartItem = require('../models/CartItem')
 const tables = 20
 const csrfProtection = csrf()
-    // Stripe
-const PUBLISHABLE_KEY = "pk_test_51ICkQ3Koy0nW0rNuHrLUZfbvh3eFsFrUUTVgGGavttDTvEhYPzEgXmrAyXPKk1F3lkcOARhpO3W3o9H35e2miMCY00FbaM4Jha"
-const SECRET_KEY = "sk_test_51ICkQ3Koy0nW0rNuyUXuevml6tnMab3ykOeRmZVCwlKK4b7o65DnZD0ZdHe2P3uRuzF1gyIfF8AXmYCzSVkrwN5V00aQkhdHsr"
-const stripe = require('stripe')(SECRET_KEY)
+const { ensureAuth, ensureGuest } = require('../middleware/auth');
 
 router.use(csrfProtection)
 
@@ -47,19 +18,31 @@ router.get('/', (req, res) => {
         'layout': 'basic'
     });
 })
+
+router.get('/login', ensureGuest, (req, res) => {
+    res.render('login', {
+        'layout': 'basic'
+    })
+})
+
 router.get('/cart', async(req, res) => {
     try {
-        // carts = await CartItem.find({ "user": req.session.user }).lean()
-        carts = await Product.find().lean()
+        carts = await CartItem.find({ user: req.user }).lean()
+        var products = []
+        for (var i = 0; i < carts.length; i++) {
+            _product = await Product.find({ _id: carts[i].product }).lean()
+            products.push(_product[0]);
+        }
         res.render('cart', {
             'layout': 'basic',
-            'products': carts,
+            'products': products,
             csrfToken: req.csrfToken(),
         })
     } catch (err) {
         console.error(err + '***')
     }
 })
+
 router.get('/about', function(req, res) {
     res.render('ristoranto', {
         'layout': 'basic'
@@ -69,122 +52,84 @@ router.get('/confirm', (req, res) => {
     res.send("Arigato!")
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Menu Page
 router.get('/menu', async(req, res) => {
     try {
         products = await Product.find().lean()
-        res.render('menu', {
-            'layout': 'basic',
-            'products': products,
-            'sortby': 0,
-            csrfToken: req.csrfToken(),
-        })
-    } catch (err) {
-        console.error(err)
-    }
-})
-
-router.get('/menu/:sortby', async(req, res) => {
-    try {
-        if (req.params.sortby == 1) {
-            products = await Product.find().sort({ price: 1 }).lean()
-        } else if (req.params.sortby == 2) {
-            products = await Product.find().sort({ price: -1 }).lean()
-        } else if (req.params.sortby == 3)
-            products = await Product.find().sort({ name: 1 }).lean()
-        else if (req.params.sortby == 4)
-            products = await Product.find().sort({ name: -1 }).lean()
-        else {
-            products = await Product.find().lean()
+        products = await Product.find().lean()
+        if (req.query.sortby && !req.query.search) {
+            if (req.query.sortby == 1)
+                products = await Product.find().sort({ price: 1 }).lean()
+            else if (req.query.sortby == 2)
+                products = await Product.find().sort({ price: -1 }).lean()
+            else if (req.query.sortby == 3)
+                products = await Product.find().sort({ name: 1 }).lean()
+            else if (req.query.sortby == 4)
+                products = await Product.find().sort({ name: -1 }).lean()
+        } else if (req.query.search && !req.query.sortby) {
+            var regex = new RegExp(req.query.search, 'i')
+            products = await Product.find({ name: regex }).lean()
         }
 
         res.render('menu', {
             'layout': 'basic',
             'products': products,
-            'sortby': req.params.sortby
+            'sortby': req.query.sortby,
         })
     } catch (err) {
         console.error(err)
     }
 })
 
-router.post('/menu/:search', async(req, res) => {
-    try {
-        var regval = req.params.search;
-        console.log(regval);
+//Add To cart
+router.get('/addToCart/:id', ensureAuth, async(req, res) => {
+    product = await Product.find({ _id: req.params.id }).lean()
+    cartItem = await CartItem.find({ user: req.user, product: product[0] }).lean()
+    if (!cartItem.length) {
+        _cartItem = new CartItem({ user: req.user, product: product[0] })
+        _cartItem.save((error, data) => {
+            if (error) {
+                console.log(error)
+            }
+            if (data) {
 
-        res.render('menu', {
-            csrfToken: req.csrfToken(),
-            'layout': 'basic',
-            'products': products,
-            'sortby': 0
+                res.redirect('/menu')
+            }
         })
-    } catch (err) {
-        console.error(err)
+    } else {
+        return res.redirect('/')
     }
+
+})
+
+//Add To cart
+router.get('/removeFromCart/:id', ensureAuth, async(req, res) => {
+    product = await Product.find({ _id: req.params.id }).lean()
+    cartItem = await CartItem.find({ user: req.user, product: product[0] }).lean()
+    if (cartItem.length) {
+        CartItem.deleteOne({ product: product[0], user: req.user }, function(err) {
+            if (err) console.log(err);
+            res.redirect('/')
+        });
+
+    } else {
+        return res.redirect('/')
+    }
+
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// BOok table
 router.get('/table', (req, res, next) => {
     res.render('table', {
         csrfToken: req.csrfToken(),
         'layout': 'basic',
-        key: PUBLISHABLE_KEY,
         errors: req.session.errors
     })
     req.session.errors = null
 })
 
+// Book table
 router.post('/table', [
 
     check('firstName').notEmpty().withMessage('First Name is required'),
@@ -242,88 +187,10 @@ router.post('/table', [
 
 })
 
-// table.save((error, data) => {
-//     if (error) {
-//         console.log(error)
-//     }
-//     if (data) {
-//         console.log(data)
-//     }
-// })
-
 router.get('/checkout/:table', (req, res, next) => {
-    // if (req.table.persons > 0) {
-    //     return res.send('Hii');
-    // }
-    // var cart = new Cart(req.session.cart);
     var amount = 100;
     var errMsg = req.flash('error')[0];
     res.render('checkout', { total: amount, errMsg: errMsg, noError: !errMsg, csrfToken: req.csrfToken() });
 });
-
-router.post('/checkout/', (req, res, next) => {
-    // if (!req.session.cart) {
-    //     return res.send('HiiByw');
-    // }
-    // var cart = new Cart(req.session.cart);
-
-    var stripe = require("stripe")(
-        "sk_test_51ICkQ3Koy0nW0rNuyUXuevml6tnMab3ykOeRmZVCwlKK4b7o65DnZD0ZdHe2P3uRuzF1gyIfF8AXmYCzSVkrwN5V00aQkhdHsr"
-    );
-
-    stripe.charges.create({
-        amount: 100 * 100,
-        currency: "usd",
-        source: req.body.stripeToken, // obtained with Stripe.js
-        description: "Test Charge"
-    }, function(err, charge) {
-        if (err) {
-            console.log("Hii")
-            console.log(err)
-            req.flash('error', err.message);
-            return res.redirect('/checkout/:table');
-        }
-        var order = new Order({
-            user: req.user,
-            cart: cart,
-            address: req.body.address,
-            name: req.body.name,
-            paymentId: charge.id
-        });
-        order.save(function(err, result) {
-            req.flash('success', 'Successfully bought product!');
-            req.session.cart = null;
-            res.redirect('/');
-        });
-    });
-});
-
-// router.get('/cart', async(req, res) => {
-//     try {
-//         products = await Product.find().lean()
-//         res.render('menu', {
-//             'layout': 'basic',
-//             'products': products,
-//             'sortby': 0,
-//             csrfToken: req.csrfToken(),
-//         })
-//     } catch (err) {
-//         console.error(err)
-//     }
-// })
-
-// router.post('/cart', async(req, res) => {
-//     let recID = req.body.proid
-//     const product = Product.find({ "_id": recID })
-//     const cartItem = new CartItem({ "product": product })
-
-//     cartItem.save((err, data) => {
-//         if (err) {
-//             console.log(err)
-//         } else {
-//             console.log(data)
-//         }
-//     })
-// })
 
 module.exports = router
