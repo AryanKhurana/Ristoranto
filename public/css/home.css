@@ -45,7 +45,7 @@ body {
 }
 
 .header nav .nav-wrapper .brand-logo span {
-    color: #fcaeae !important;
+    color: #40c9a2!important;
 }
 
 .header nav .nav-wrapper ul li a {
@@ -58,13 +58,13 @@ body {
     width: fit-content;
     padding: 9px 30px;
     height: 40px;
-    border: 1px solid #fcaeae;
+    border: 1px solid #40c9a2;
     border-radius: 20px;
 }
 
 .header nav .nav-wrapper ul li a:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    color: #fcaeae;
+    color: #40c9a2;
 }
 
 .header nav .nav-wrapper ul li .login {
@@ -102,15 +102,14 @@ body {
     border-radius: 23px;
     font-weight: 600;
     font-size: 15px;
-    background-color: #f76969;
+    background-color: #40c9a2;
     color: white;
 }
 
 .header div div.row .section .exploreNow:hover {
-    /* border: 1px solid #f76969; */
     background-color: white;
-    color: #fcaeae;
-    box-shadow: 0 0 3px 3px rgba(247, 105, 105, 0.3);
+    color: #40c9a2;
+    border: 1px solid #40c9a2;
 }
 
 section.services {
@@ -146,7 +145,7 @@ section.services {
     transform: translateY(-10px);
     transform: translateZ(10px);
     transform: translate3d(0, -10px, 10px);
-    background-color: #f59292;
+    background-color: #40c9a2;
 }
 
 .services .container .box-row .card:hover svg {
@@ -166,8 +165,8 @@ section.services {
     margin: auto;
     width: 70px;
     height: 70px;
-    color: #f76969;
-    fill: #f76969;
+    color: #40c9a2;
+    fill: #40c9a2;
 }
 
 .services .container .box-row .card h3 {
@@ -298,7 +297,7 @@ section.services {
 }
 
 .footer .container .content .brand-logo span {
-    color: #fcaeae!important;
+    color: #40c9a2!important;
 }
 
 .footer .container .content div.icons {
@@ -309,7 +308,7 @@ section.services {
 
 .footer .container .content div.icons a {
     font-size: 1.5rem;
-    color: #fcaeae;
+    color: #40c9a2;
     margin: 10px;
 }
 
@@ -332,7 +331,7 @@ section.services {
 }
 
 .footer .container .services ul li:hover a {
-    color: #f59292;
+    color: #40c9a2;
 }
 
 .footer .container .address .title {
