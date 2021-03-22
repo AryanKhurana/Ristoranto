@@ -30,9 +30,5 @@ const TableSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    money: {
-        type: Number,
-        default: 0
-    },
 })
 module.exports = mongoose.model('Table', TableSchema)

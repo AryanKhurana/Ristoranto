@@ -9,6 +9,8 @@ const session = require('express-session')
 const passport = require('passport')
 const MongoStore = require('connect-mongo')(session)
 const flash = require('connect-flash')
+const fetch = require("node-fetch");
+
 
 // This simply sets the environment file  
 dotenv.config({ path: './config/config.env' })

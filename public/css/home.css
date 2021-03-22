@@ -179,6 +179,55 @@ section.services {
     font-size: 14px;
 }
 
+section.bookTable {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: url("https://images.pexels.com/photos/326279/pexels-photo-326279.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+section.bookTable .main_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+section.bookTable .main_text h1 {
+    color: white;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+section.bookTable .main_text h1 span {
+    color: #40c9a2;
+}
+
+section.bookTable .main_text p {
+    color: white;
+    font-size: 20px;
+}
+
+section.bookTable .main_text a {
+    font-size: 18px;
+    padding: 10px 20px;
+    width: fit-content;
+    height: fit-content;
+    background: #40c9a2;
+    text-transform: capitalize;
+}
+
+section.bookTable .main_text a:hover {
+    color: #40c9a2;
+    background: white;
+}
+
 .chefs {
     margin-top: 50px;
     text-align: center;
@@ -280,6 +329,7 @@ section.services {
     width: 100%;
     margin-top: 50px;
     padding: 50px 100px;
+    background-color: #f8f9fa;
 }
 
 .footer .container {

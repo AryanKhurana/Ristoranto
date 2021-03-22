@@ -1,21 +1,34 @@
 <nav>
     <div class="nav-wrapper">
-        <a href="#!" class="brand-logo">Nai<span>vedya</span></a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons" style="color: black;">menu</i></a>
+        <a href="/" class="brand-logo">Nai<span>vedya</span></a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons"
+                style="color: black;">menu</i></a>
 
         <ul class="centerUL hide-on-med-and-down">
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/menu">Menu</a></li>
-          
+            {{#if user}}
+            <li><a href="/cart">Cart</a></li>
+            {{/if}}
+
+
         </ul>
-                
+
         <ul class="hide-on-med-and-down">
+            {{#if user}}
+            <li>
+                <a class="login" href="/logout">
+                    Logout
+                </a>
+            </li>
+            {{else}}
             <li>
                 <a class="login" href="/login">
                     Login
                 </a>
             </li>
+            {{/if}}
             <li>
                 <a class="bookTable" href="/table">
                     Book Table
@@ -29,6 +42,13 @@
     <li><a href="/">Home</a></li>
     <li><a href="/about">About</a></li>
     <li><a href="/menu">Menu</a></li>
-    <li><a href="/login">Login</a></li>
+    {{#if user}}
+        <li><a href="/cart">Cart</a></li>
+    {{/if}}
     <li><a href="/table">Book Table</a></li>
+    {{#if user}}
+    <li><a href="/logout">Logout</a></li>
+    {{else}}
+    <li><a href="/login">Login</a></li>
+    {{/if}}
 </ul>

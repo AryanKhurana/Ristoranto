@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const csrf = require('csurf')
 const Product = require('../models/Product')
 const Table = require('../models/Table')
 const User = require('../models/User')
@@ -8,14 +7,14 @@ const moment = require('moment')
 const { check, validationResult } = require('express-validator')
 const CartItem = require('../models/CartItem')
 const tables = 20
-const csrfProtection = csrf()
+const fetch = require("node-fetch");
 const { ensureAuth, ensureGuest } = require('../middleware/auth');
-
-router.use(csrfProtection)
+const stripe = require('stripe')('sk_test_51ICkQ3Koy0nW0rNuyUXuevml6tnMab3ykOeRmZVCwlKK4b7o65DnZD0ZdHe2P3uRuzF1gyIfF8AXmYCzSVkrwN5V00aQkhdHsr');
 
 router.get('/', (req, res) => {
     res.render('home', {
-        'layout': 'basic'
+        'layout': 'basic',
+        user: req.user
     });
 })
 
@@ -25,7 +24,12 @@ router.get('/login', ensureGuest, (req, res) => {
     })
 })
 
-router.get('/cart', async(req, res) => {
+router.get('/logout', ensureAuth, (req, res) => {
+    req.logout()
+    res.redirect('/login')
+})
+
+router.get('/cart', ensureAuth, async(req, res) => {
     try {
         carts = await CartItem.find({ user: req.user }).lean()
         var products = []
@@ -36,7 +40,7 @@ router.get('/cart', async(req, res) => {
         res.render('cart', {
             'layout': 'basic',
             'products': products,
-            csrfToken: req.csrfToken(),
+            'user': req.user
         })
     } catch (err) {
         console.error(err + '***')
@@ -45,7 +49,8 @@ router.get('/cart', async(req, res) => {
 
 router.get('/about', function(req, res) {
     res.render('ristoranto', {
-        'layout': 'basic'
+        'layout': 'basic',
+        'user': req.user
     });
 })
 router.get('/confirm', (req, res) => {
@@ -55,6 +60,7 @@ router.get('/confirm', (req, res) => {
 // Menu Page
 router.get('/menu', async(req, res) => {
     try {
+        console.log(req.user)
         products = await Product.find().lean()
         products = await Product.find().lean()
         if (req.query.sortby && !req.query.search) {
@@ -75,6 +81,7 @@ router.get('/menu', async(req, res) => {
             'layout': 'basic',
             'products': products,
             'sortby': req.query.sortby,
+            'user': req.user
         })
     } catch (err) {
         console.error(err)
@@ -109,88 +116,101 @@ router.get('/removeFromCart/:id', ensureAuth, async(req, res) => {
     if (cartItem.length) {
         CartItem.deleteOne({ product: product[0], user: req.user }, function(err) {
             if (err) console.log(err);
-            res.redirect('/')
+            res.redirect('/cart')
         });
+
+    } else {
+        return res.redirect('/cart')
+    }
+
+})
+
+router.get('/removeAllCartItems', ensureAuth, async(req, res) => {
+    var products = []
+    cartItem = await CartItem.find({ user: req.user }).lean()
+    for (let i = 0; i < cartItem.length; i++) {
+        product = await Product.find({ _id: cartItem[i].product })
+        products.push(product)
+    }
+    console.log(products)
+    if (products.length) {
+        for (var i = 0; i < products.length; i++) {
+            CartItem.deleteOne({ product: products[i], user: req.user }, function(err) {
+                if (err) console.log(err);
+            });
+        }
 
     } else {
         return res.redirect('/')
     }
-
+    res.redirect('/')
 })
 
 
 // BOok table
-router.get('/table', (req, res, next) => {
-    res.render('table', {
-        csrfToken: req.csrfToken(),
-        'layout': 'basic',
-        errors: req.session.errors
-    })
-    req.session.errors = null
+router.get('/table', (req, res) => {
+    res.sendFile("C:\\Users\\Bipin Jaiswal\\Desktop\\Ankit\\Node Projects\\restaurant-website\\views\\table.html")
 })
 
-// Book table
-router.post('/table', [
-
-    check('firstName').notEmpty().withMessage('First Name is required'),
-    check('lastName').notEmpty().withMessage('Last Name is required'),
-    check('email').isEmail().withMessage('Email is required'),
-    check('date').notEmpty().withMessage('Date And time is required'),
-    check('time').notEmpty().withMessage('Time is required')
-
-], async(req, res) => {
-
-    const errors = validationResult(req).array()
-
-    console.log(errors)
-    if (req.body.date) {
-        if ((new Date() > new Date(req.body.date)) && (new Date().getHours() - req.body.time < 2)) {
-            errors.push({
-                value: req.body.date,
-                msg: 'Date must be greater than current date',
-                param: 'date',
-                location: 'body'
-            })
+router.get('/tableDetails/:date/:time', async(req, res) => {
+    console.log("----------------------------------------------------------------------------------")
+    const _tables = await Table.find({ "date": new Date(req.params.date), "time": req.params.time }, (err) => {
+        if (err) {
+            console.log(err)
         }
-    }
+    }).lean()
 
-    if (errors.length != 0) {
-        req.session.errors = errors
-        return res.redirect('/table')
-    } else {
-        var { firstName, lastName, email, persons, mode, date, time } = req.body
-
-        const _tables = Table.find({ "date": date, "time": time }, (err) => {
-            if (err) {
-                console.log(err)
-            }
-        }).lean()
-        if (_tables.length === tables) {
-            errors.push({
-                value: "",
-                msg: 'Sorry we are full!',
-                param: 'body',
-                location: 'body'
-            })
-            req.session.errors = errors
-            return res.redirect('/table')
-        } else {
-            const table = new Table({ "firstName": firstName, "lastName": lastName, "email": email, "persons": persons, "mode": mode, "date": date, "time": time })
-            res.redirect('/checkout/' + table)
-        }
-
-
-        res.render('table', {
-            'layout': 'basic'
-        })
-    }
-
-})
-
-router.get('/checkout/:table', (req, res, next) => {
-    var amount = 100;
-    var errMsg = req.flash('error')[0];
-    res.render('checkout', { total: amount, errMsg: errMsg, noError: !errMsg, csrfToken: req.csrfToken() });
+    console.log(_tables)
+    console.log("------------------------------------------------------------")
+    res.json({
+        table: _tables.length,
+    });
 });
+
+router.get('/saveTables', (req, res) => {
+    _table = new Table({ firstName: req.query.firstName, lastName: req.query.lastName, email: req.query.email, persons: req.query.persons, date: req.query.date, time: req.query.time })
+    _table.save((error, data) => {
+        if (error) {
+            console.log(error)
+        }
+        if (data) {
+            console.log(data);
+            // res.redirect('/')
+        }
+    })
+    res.redirect('/')
+})
+
+router.post('/create-checkout-session', async(req, res) => {
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
+            price_data: {
+                currency: 'INR',
+                product_data: {
+                    name: req.body.productName,
+                    images: req.body.images,
+                },
+                unit_amount: req.body.amount,
+            },
+            quantity: req.body.quantity,
+        }, ],
+        mode: 'payment',
+        success_url: req.body.success_url,
+        cancel_url: 'http://localhost:3000/',
+    });
+    res.json({ id: session.id });
+});
+
+
+// Remove all tables from the database before this day
+setInterval(async() => {
+    var date = new Date.getDate() + "-" + new Date.getMonth + "-" + new Date.getYear();
+    const _tables = await Table.find({ time: new Date.getHours(), date: date }).lean();
+    if (_tables.length) {
+        table.deleteOne({ _id: _tables[0]._id });
+    }
+}, 3600000)
+
 
 module.exports = router

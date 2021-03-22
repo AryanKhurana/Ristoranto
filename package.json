@@ -1,36 +1,37 @@
 {
-  "name": "restaurant-website",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "server": "nodemon index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "connect-flash": "^0.1.1",
-    "connect-mongo": "^3.2.0",
-    "csurf": "^1.11.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-handlebars": "^5.2.0",
-    "express-session": "^1.17.1",
-    "express-validator": "^6.9.2",
-    "method-override": "^3.0.0",
-    "moment": "^2.29.1",
-    "mongoose": "^5.11.12",
-    "morgan": "^1.10.0",
-    "passport": "^0.4.1",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0",
-    "stripe": "^8.137.0"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "nodemon": "^2.0.7"
-  }
+    "name": "restaurant-website",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "server": "nodemon index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "connect-flash": "^0.1.1",
+        "connect-mongo": "^3.2.0",
+        "csurf": "^1.11.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-handlebars": "^5.2.0",
+        "express-session": "^1.17.1",
+        "express-validator": "^6.9.2",
+        "method-override": "^3.0.0",
+        "moment": "^2.29.1",
+        "mongoose": "^5.11.12",
+        "morgan": "^1.10.0",
+        "node-fetch": "^2.6.1",
+        "passport": "^0.4.1",
+        "passport-google-oauth20": "^2.0.0",
+        "passport-local": "^1.0.0",
+        "stripe": "^8.131.1"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.3",
+        "nodemon": "^2.0.7"
+    }
 }

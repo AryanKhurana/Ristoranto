@@ -2,90 +2,230 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta _id="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+        integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+        crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://kit.fontawesome.com/dbed6b6114.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/cart.css">
+    <title>My Cart - Naivedya</title>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
+    <div class="header">
+        {{>Navbar}}
+    </div>
 
-    <div class="product-cart">
-        <div class="container">
-            <h3 class="lg-title main-head">
-                Shopping Cart
-            </h3>
-
-            <div class="cart-collection">
+    <div style="display: flex; justify-content: center; flex-wrap: wrap">
+        {{#if products}}
+        <div class="products-cart">
+            <div class="heading">
+                <h3>My Cart</h3>
+            </div>
+            <div class="products">
                 {{#each products}}
-                <div class="cart-item">
-                    <div class="cart-product">
-                        <div class="cart-image" style="background-image: url('./vada.jpg');"></div>
-                        <div class="cart-product-info">
-                            <p class="">{{name}}</p>
-                            <p class="cart-price-sm">Rs. <span class="{{_id}}">{{price}}</span></p>
+                <div class="product">
+                    <div class="div1">
+                        <div class="img">
+                            <img src="{{image}}">
+                        </div>
+                        <div class="product-data">
+                            <h3 class="name">{{name}}</h3>
+                            <p class="description">{{description}}</p>
+                            <p class="price">Rs <span class="c{{_id}}">{{price}}</span></p>
                         </div>
                     </div>
-                    <div class="cart-quantity">
+                    <div class="additional-details">
                         <div class="cart-quantity-controls">
-                            <button onclick="decrement(this)" id="{{_id}}">-</button>
-                            <input type="number" value="1" class="{{_id}}" readonly>
-                            <button onclick="increment(this)" id="{{_id}}">+</button>
+                            <button onclick="decrement(this)" id="c{{_id}}">-</button>
+                            <input type="number" value="1" class="c{{_id}}" readonly>
+                            <button onclick="increment(this)" id="c{{_id}}">+</button>
                         </div>
-                    </div>
-                    <div class="cart-total-price">
-                        <h4>Rs. <span class="{{_id}}">{{price}}</span></h4>
-                    </div>
-                    <div class="remove">
-                        <a href="/removeFromCart/{{_id}}"><i class="fas fa-trash-alt"></i>Remove</a>
+                        <div class="remove">
+                            <a class="remove modal-trigger" href="#modal{{_id}}"><i
+                                    class="fas fa-trash-alt"></i>Remove</a>
+                            <div id="modal{{_id}}" class="modal">
+                                <div class="modal-content">
+                                    <h4 style="font-size: 20px; margin: 0; margin-bottom: 20px; font-weight: bold;">
+                                        Remove Item</h4>
+                                    <p>Are you sure you want to remove this item?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="/removeFromCart/{{_id}}" class="modal-action modal-close">
+                                        Remove
+                                    </a>
+                                    <a href="#" class="modal-action modal-close">
+                                        Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {{/each}}
             </div>
-            <div class="place_order">
-                <button>Proceed To Buy</button>
-                <div class="total">
-                    <h4>Total: Rs. <span></span></h4>
+        </div>
+        {{else}}
+        <div class="products-cart" style="width: 70%">
+            <div class="heading">
+                <h3>My Cart</h3>
+            </div>
+            <div class="noItems" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <div class="img" style="width: 200px; margin-bottom: 20px">
+                    <img width="100%" 
+                        src="https://rukminim1.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90">
                 </div>
+                <p>Your cart is empty!</p>
+                <p>Add items to it now.</p>
+                <a href="/menu" style="padding: 10px 40px; margin-top: 20px; color: white; background-color: #40cd92; margin-bottom: 40px">Shop Now</a>
             </div>
         </div>
+        {{/if}}
+
+        {{#if products}}
+        <div class="proceed-div">
+            <div class="details">
+                <h3>Price Details</h3>
+            </div>
+            <div class="price">
+                <p>Price </p>
+                <p>Rs <span></span></p>
+            </div>
+            <div class="deliveryCharges">
+                <p>Delivery Charges </p>
+                <p>Rs <span>40</span></p>
+            </div>
+            <div class="totalPrice">
+                <p>Total Price </p>
+                <p>Rs <span></span></p>
+            </div>
+            <button id="submit">Place Order</button>
+        </div>
+        {{/if}}
     </div>
-    
+
+    <footer class="footer">
+        <div class="container">
+            <div class="content">
+                <a href="#" class="brand-logo">Nai<span>vedya</span></a>
+                <div class="icons">
+                    <a href="https://github.com/AryanKhurana/Ristoranto" class="footer__social"><i
+                            class='fab fa-facebook-f'></i></a>
+                    <a href="https://www.instagram.com/naivedya2020.3/" class="footer__social"><i
+                            class='fab fa-instagram'></i></a>
+                    <a href="https://github.com/AryanKhurana/Ristoranto" class="footer__social"><i
+                            class='fab fa-github'></i></a>
+                </div>
+            </div>
+
+            <div class="services">
+                <h3 class="title">Navigation</h3>
+                <ul>
+                    <li><a href="/" class="link">Home</a></li>
+                    <li><a href="/menu" class="link">Menu</a></li>
+                    <li><a href="/about" class="link">About Us</a></li>
+                    <li><a href="/table" class="link">Book Table</a></li>
+                </ul>
+            </div>
+
+            <div class="address">
+                <h3 class="title">Address</h3>
+                <ul>
+                    <li>Sambhaji Nagar</li>
+                    <li>St. Anthony Road</li>
+                    <li>Chembur</li>
+                    <li>Mumbai-400071</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script>
+        M.Sidenav.init(document.querySelectorAll('.sidenav'));
+        M.Modal.init(document.querySelectorAll('.modal'));
+    </script>
+
+
 
     <script>
-        function increment(item){
+        function increment(item) {
             var x = document.querySelector('input.' + item.id);
-            var y = document.querySelector('.cart-total-price h4 span.' + item.id);
-            var z = document.querySelector('.cart-product-info p span.' + item.id);
-
             x.value = parseInt(x.value) + 1;
-            y.innerHTML = parseInt(z.innerHTML)*x.value;
-            document.querySelector('.total h4 span').innerHTML = parseInt(document.querySelector('.total h4 span').innerHTML) + parseInt(z.innerHTML);
         }
-        function decrement(item){
+        function decrement(item) {
             var x = document.querySelector('input.' + item.id);
-            var y = document.querySelector('.cart-total-price h4 span.' + item.id);
-            var z = document.querySelector('.cart-product-info p span.' + item.id);
-            
-
-            if(x.value > 0){
+            if (x.value > 0) {
+                item.classList.remove("block");
                 x.value = parseInt(x.value) - 1;
-                document.querySelector('.total h4 span').innerHTML = parseInt(document.querySelector('.total h4 span').innerHTML) - parseInt(z.innerHTML);
             }
-
-            y.innerHTML = parseInt(z.innerHTML)*x.value;
         }
 
         // Calculating Total Price
-        var z = document.querySelectorAll('.cart-total-price h4 span')
-        var sum = 0;
-        for(let i=0; i<z.length; i++){
-            sum += parseInt(z[i].innerHTML)
-        }
-        document.querySelector('.total h4 span').innerHTML = sum;
-        
+        setInterval(() => {
+            var z = document.querySelectorAll('.product-data .price span')
+            var x = document.querySelectorAll('.cart-quantity-controls input')
+            var sum = 0;
+            for (let i = 0; i < z.length; i++) {
+                sum += parseInt(z[i].innerHTML) * parseInt(x[i].value)
+            }
+            document.querySelector('.proceed-div .price p span').innerHTML = sum;
+            document.querySelector('.proceed-div .totalPrice p span').innerHTML = sum + 40;
+        }, 1000);
+
+
+        document.querySelector('#submit').addEventListener('click', function () {
+            var stripe = Stripe("pk_test_51ICkQ3Koy0nW0rNuHrLUZfbvh3eFsFrUUTVgGGavttDTvEhYPzEgXmrAyXPKk1F3lkcOARhpO3W3o9H35e2miMCY00FbaM4Jha");
+            fetch("/create-checkout-session", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    productName: "Order Online",
+                    images: ["https://upload.wikimedia.org/wikipedia/commons/f/fe/Traditional_Naivedya_thali.jpg"],
+                    quantity: 1,
+                    amount: parseInt(document.querySelector('.proceed-div .totalPrice p span').innerHTML) * 100,
+                    success_url: "http://localhost:3000/removeAllCartItems"
+                }),
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (session) {
+
+                    return stripe.redirectToCheckout({
+                        sessionId: session.id
+                    });
+                })
+                .then(function (result) {
+                    if (result.error) {
+                        alert(result.error.message);
+                    } else {
+                        console.log("Hii")
+                    }
+                })
+                .catch(function (error) {
+                    console.log("Error: ", error);
+                });
+        })
+
     </script>
 </body>
 

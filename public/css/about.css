@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,500&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Poppins, sans-serif;
+    /* color: black!important;     */
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.header {
+    width: 100%;
+    height: 100vh;
+    background: url("https://images.pexels.com/photos/326279/pexels-photo-326279.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940") no-repeat center center fixed;
+}
+
+.header nav {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0 40px;
+    box-shadow: none;
+    position: relative;
+}
+
+.header nav .nav-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header nav .nav-wrapper .brand-logo {
+    position: relative;
+    font-size: 22px;
+    font-weight: 600;
+    color: white;
+}
+
+.header nav .nav-wrapper .brand-logo span {
+    color: #40c9a2!important;
+}
+
+.header nav .nav-wrapper ul li a {
+    font-weight: 600;
+    color: white;
+}
+
+.header nav .nav-wrapper ul li .bookTable {
+    display: inline;
+    width: fit-content;
+    padding: 9px 30px;
+    height: 40px;
+    border: 3px solid #40c9a2;
+    border-radius: 20px;
+}
+
+.header nav .nav-wrapper ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #40c9a2;
+}
+
+.header nav .nav-wrapper ul li .login {
+    padding: 0 30px;
+}
+
+.header .sidenav {
+    width: 200px;
+}
+
+.header .sidenav li a {
+    /* text-align: center; */
+    padding: 0 22px;
+    font-weight: 600;
+}
+
+.landing-text {
+    position: absolute;
+    top: 40%;
+    left: 35%;
+}
+
+.landing-text h1 {
+    font-size: 80px;
+    color: white;
+    text-align: center;
+}
+
+.landing-text h1 span {
+    color: #40c9a2;
+}
+
+.landing-text p {
+    color: white;
+    font-size: 30px;
+}
+
+.padding {
+    padding: 80px 0;
+}
+
+.col-sm-6 {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#fixed {
+    background: url("https://images.pexels.com/photos/941869/pexels-photo-941869.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940") no-repeat center center fixed;
+    display: table;
+    height: 60vh;
+    position: relative;
+    width: 100%;
+    background-size: cover;
+}
+
+.padding h2 {
+    color: #212529;
+}
+
+.padding p {
+    color: #777777;
+    font-size: 18px;
+}
+
+.footer {
+    width: 100%;
+    margin-top: 50px;
+    padding: 50px 100px;
+    background-color: #f8f9fa;
+}
+
+.footer .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.footer .container .content .brand-logo {
+    position: relative;
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+}
+
+.footer .container .content .brand-logo span {
+    color: #40c9a2!important;
+}
+
+.footer .container .content div.icons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.footer .container .content div.icons a {
+    font-size: 1.5rem;
+    color: #40c9a2;
+    margin: 10px;
+}
+
+.footer .container .services .title {
+    font-size: 22px;
+    color: #000;
+    text-align: left;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.footer .container .services ul li {
+    color: #777777;
+    margin: 6px 0;
+}
+
+.footer .container .services ul li a {
+    color: #777777;
+    font-size: 16px;
+}
+
+.footer .container .services ul li:hover a {
+    color: #40c9a2;
+}
+
+.footer .container .address .title {
+    font-size: 22px;
+    color: #000;
+    text-align: left;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.footer .container .address ul li {
+    color: #777777;
+    margin: 6px 0;
+    font-size: 16px;
+}
+
+@media (max-width: 600px) {
+    .landing-text {
+        position: relative;
+        top: 30%;
+        left: 0;
+        padding: 20px;
+    }
+    .landing-text p {
+        font-size: 24px;
+    }
+    .footer .container .content {
+        margin-bottom: 50px;
+    }
+    .footer .container .services {
+        margin-bottom: 50px;
+    }
+}

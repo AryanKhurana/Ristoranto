@@ -14,6 +14,11 @@
     font-family: 'Poppins';
 }
 
+.row {
+    margin: 0;
+    padding: 0;
+}
+
 a {
     text-decoration: none;
 }
@@ -28,6 +33,64 @@ a:hover {
 img {
     width: 100%;
     display: block;
+}
+
+.header nav {
+    /* background-color: rgba(255, 255, 255, 0.5); */
+    background-color: var(--alice-blue);
+    padding: 0 40px;
+    box-shadow: none;
+    position: relative;
+}
+
+.header nav .nav-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header nav .nav-wrapper .brand-logo {
+    position: relative;
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+}
+
+.header nav .nav-wrapper .brand-logo span {
+    color: #40c9a2!important;
+}
+
+.header nav .nav-wrapper ul li a {
+    font-weight: 600;
+    color: black;
+}
+
+.header nav .nav-wrapper ul li .bookTable {
+    display: inline;
+    width: fit-content;
+    padding: 9px 30px;
+    height: 40px;
+    border: 1px solid #40c9a2;
+    border-radius: 20px;
+}
+
+.header nav .nav-wrapper ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #40c9a2;
+}
+
+.header nav .nav-wrapper ul li .login {
+    padding: 0 30px;
+}
+
+.header .sidenav {
+    width: 200px;
+}
+
+.header .sidenav li a {
+    /* text-align: center; */
+    padding: 0 22px;
+    font-weight: 600;
 }
 
 .container {
@@ -73,10 +136,6 @@ img {
 
 /* product section */
 
-.products {
-    padding: 3.2rem 0;
-}
-
 .products .text-light {
     text-align: center;
     width: 70%;
@@ -89,7 +148,8 @@ img {
     align-items: center;
     width: 100%;
     justify-content: space-between;
-    padding: 0 90px;
+    padding-right: 25px;
+    padding-left: 5px;
     flex-wrap: wrap;
 }
 
@@ -105,6 +165,24 @@ img {
     margin: 10px 0;
 }
 
+tr {
+    border-bottom: 0;
+}
+
+td {
+    padding: 0;
+    border-radius: 0;
+}
+
+td input {
+    border-bottom: 0!important;
+    height: auto!important;
+    width: auto!important;
+    margin: 0!important;
+    transition: none!important;
+    box-shadow: none!important;
+}
+
 .elementsContainer {
     width: 100%;
     height: 100%;
@@ -112,16 +190,16 @@ img {
 }
 
 .search {
-    border: none;
-    background: white;
-    height: 100%;
-    width: 100%;
-    padding: 0 5px;
-    border-radius: 50px;
-    font-size: 16px;
-    font-family: 'Poppins';
-    color: #424242;
-    font-weight: 500;
+    border: none!important;
+    background: white!important;
+    height: 100%!important;
+    width: 100%!important;
+    padding: 0 5px!important;
+    border-radius: 50px!important;
+    font-size: 16px!important;
+    font-family: 'Poppins'!important;
+    color: #424242!important;
+    font-weight: 500!important;
 }
 
 .search:focus {
@@ -195,7 +273,7 @@ div.featured svg.active {
     transition: opacity .4s cubic-bezier(0, 1, .4, 1), transform .4s cubic-bezier(.18, 1.25, .4, 1), visibility .4s linear, -webkit-transform .4s cubic-bezier(.18, 1.25, .4, 1);
 }
 
-.dropdown-content {
+.dropdown-content1 {
     position: absolute;
     width: 170px;
     height: auto;
@@ -221,7 +299,7 @@ div.featured svg.active {
     overflow: auto;
 }
 
-.dropdown-content.active {
+.dropdown-content1.active {
     visibility: visible;
     opacity: 1;
     -webkit-transform: scale(1.001);
@@ -229,7 +307,7 @@ div.featured svg.active {
     transition: opacity .4s cubic-bezier(0, 1, .4, 1), transform .4s cubic-bezier(.18, 1.25, .4, 1), visibility .4s linear, -webkit-transform .4s cubic-bezier(.18, 1.25, .4, 1);
 }
 
-.dropdown-content a {
+.dropdown-content1 a {
     display: block;
     position: relative;
     padding: 8px 15px;
@@ -241,8 +319,8 @@ div.featured svg.active {
     width: 170px;
 }
 
-.dropdown-content a:hover,
-.dropdown-content a.active {
+.dropdown-content1 a:hover,
+.dropdown-content1 a.active {
     color: white;
     background: var(--carribean-green);
 }
@@ -511,6 +589,7 @@ ul.cuisine_list li a span,
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    border-radius: 5px;
 }
 
 .product-btns {
@@ -598,7 +677,7 @@ ul.cuisine_list li a span,
 
 .product-info {
     background: white;
-    padding: 2rem;
+    padding: 10px 0;
 }
 
 .product-info-top {
@@ -615,15 +694,41 @@ ul.cuisine_list li a span,
     color: black;
     display: block;
     text-decoration: none;
-    font-size: 1rem;
-    text-transform: uppercase;
+    font-size: 1.2rem;
+    /* text-transform: uppercase; */
     font-weight: bold;
+}
+
+.price-addToCart {
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .product-price {
     padding-top: 0.6rem;
     padding-right: 0.6rem;
-    display: inline-block;
+    padding: 0.6rem;
+    text-align: center;
+    font-weight: 700;
+    margin: 0;
+    /* border: 1px solid #40c9a2; */
+    color: #40c9a2;
+}
+
+.price-addToCart .addToCart {
+    /* margin-left: 10px; */
+    padding: 10px;
+    border: 1px solid #40c9a2;
+    color: #40c9a2;
+    font-weight: 500;
+}
+
+.price-addToCart .addToCart:hover {
+    background: #40c9a2;
+    color: white;
 }
 
 
@@ -748,5 +853,90 @@ img {
         padding-right: 15px;
         padding-left: 15px;
         margin-bottom: 30px;
+    }
+}
+
+.footer {
+    width: 100%;
+    margin-top: 50px;
+    padding: 50px 100px;
+    background-color: var(--alice-blue);
+}
+
+.footer .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.footer .container .content .brand-logo {
+    position: relative;
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+}
+
+.footer .container .content .brand-logo span {
+    color: #40c9a2!important;
+}
+
+.footer .container .content div.icons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.footer .container .content div.icons a {
+    font-size: 1.5rem;
+    color: #40c9a2;
+    margin: 10px;
+}
+
+.footer .container .services .title {
+    font-size: 22px;
+    color: #000;
+    text-align: left;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.footer .container .services ul li {
+    color: #777777;
+    margin: 6px 0;
+}
+
+.footer .container .services ul li a {
+    color: #777777;
+    font-size: 16px;
+}
+
+.footer .container .services ul li:hover a {
+    color: #40c9a2;
+}
+
+.footer .container .address .title {
+    font-size: 22px;
+    color: #000;
+    text-align: left;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.footer .container .address ul li {
+    color: #777777;
+    margin: 6px 0;
+    font-size: 16px;
+}
+
+@media (max-width: 600px) {
+    .footer .container .content {
+        margin-bottom: 50px;
+    }
+    .footer .container .services {
+        margin-bottom: 50px;
+    }
+    .container {
+        width: auto;
     }
 }

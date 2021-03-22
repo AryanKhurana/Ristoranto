@@ -4,16 +4,23 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
+    <title>Menu - Naivedya</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+        integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+        crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/menu.css">
-    <!-- font awesome -->
-    <script src="https://kit.fontawesome.com/dbed6b6114.js" crossorigin="anonymous"></script>
 </head>
 
 
 <body>
+    <div class="header">
+        {{>Navbar}}
+    </div>
     <div class="products">
         <div class="container">
             <div class="first-div">
@@ -29,11 +36,6 @@
                         </tr>
                     </table>
                 </div>
-                {{!-- <div class="filter-tag" onclick="openAndCloseFilter()">
-                    <a class="filter" href="#">
-                        <i class="fas fa-filter"></i> Filter
-                    </a>
-                </div> --}}
 
                 <div class="featured">
                     {{#sortBySelect sortby 1}}
@@ -68,7 +70,7 @@
                             d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z"
                             fill="#ffffff"></path>
                     </svg>
-                    <div class="dropdown-content">
+                    <div class="dropdown-content1">
                         {{#sortBySelect sortby 1}}
                         <a href="?sortby=1" id="feature0" class="active" onclick="addNewFeature(this)">Price: Low To
                             High</a>
@@ -107,89 +109,94 @@
                 </div>
             </div>
 
-            {{!-- <div class="filter-section">
-                <div class="price-section-wrapper">
-                    <h5 class="filter-title">
-                        By Price
-                    </h5>
-                    <div class="price-section">
-                        <input type="text" class="min" placeholder="Min Rs.">
-                        <input type="text" class="max" placeholder="Max Rs.">
-                    </div>
-                    <button class="filter-button">
-                        Filter
-                    </button>
-                </div>
 
-                <div class="cuisine-section-wrapper">
-                    <h5 class="filter-title">
-                        By Cuisine
-                    </h5>
-                    <div class="cuisine">
-                        <ul class="cuisine_list">
-                            <li><a href="#">Indian<span>(6)</span></a></li>
-                            <li><a href="#">Italian<span>(9)</span></a></li>
-                            <li><a href="#">Chinese<span>(9)</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="preference-section-wrapper">
-                    <h5 class="filter-title">
-                        By Preference
-                    </h5>
-                    <div class="preference_section">
-                        <ul class="preference_list">
-                            <li><a href="#">Vegeterian<span>(6)</span></a></li>
-                            <li><a href="#">Non Vegeterian<span>(9)</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div> --}}
-
-            {{!-- <div class="search-results">
-                <div class="result_html"><span class="cp">7</span> Products Found</div>
-                <a href="#" class="clear_filter dib bf_icons" aria-label="Remove tag Price  $50-$150">Price $50 $150</a>
-            </div> --}}
-
+            {{#if products}}
             <div class="product-items">
-
                 {{#each products}}
                 <div class="product">
                     <div class="product-content">
-                        {{!-- <img src="http://localhost:3000/images/vadapav.jpg" alt="product image"> --}}
                         <img src="{{image}}" alt="product image">
-                        <div class="product-btns">
-                            {{!-- <a href="#" class="btn-cart">
-                                <span class="btn-text">Add to Cart</span>
-                                <i class="fas fa-shopping-cart"></i>
-                            </a> --}}
+                        {{!-- <div class="product-btns">
                             <a href="/addToCart/{{_id}}" class="btn-buy">
                                 <span class="btn-text">Add to cart</span>
                                 <i class="fas fa-shopping-cart"></i>
-                                {{!-- <i class="fa fa-eye" aria-hidden="true"></i> --}}
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="product-info">
-                        <div class="product-info-top">
-                            <h2 class="sm-title">{{cuisine}} cuisine</h2>
-                        </div>
                         <a href="#" class="product-name">{{name}}</a>
-                        <p class="product-price">Rs {{price}}.00</p>
+                        <p class="description"
+                            style="height: 20px; width: 100%; overflow: hidden; margin-bottom: 0; color: #777777">
+                            {{description}}</p>
+                        {{!-- <p class="product-price">Rs {{price}}.00</p> --}}
+                        <div class="price-addToCart ">
+                            <p class="product-price ">Rs {{price}}.00</p>
+                            <a class="addToCart " href="/addToCart/{{_id}}">Add To Cart</a>
+                        </div>
                     </div>
                 </div>
                 {{/each}}
             </div>
+            {{else}}
+            <p style="font-size: 25px; font-weight: 500; width: 100%; text-align:center; margin: 100px 0">Sorry, No Products Available.
+                Please search another item.</p>
+            {{/if}}
         </div>
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="content">
+                <a href="#" class="brand-logo">Nai<span>vedya</span></a>
+                <div class="icons">
+                    <a href="https://github.com/AryanKhurana/Ristoranto" class="footer__social"><i
+                            class='fab fa-facebook-f'></i></a>
+                    <a href="https://www.instagram.com/naivedya2020.3/" class="footer__social"><i
+                            class='fab fa-instagram'></i></a>
+                    <a href="https://github.com/AryanKhurana/Ristoranto" class="footer__social"><i
+                            class='fab fa-github'></i></a>
+                </div>
+            </div>
+
+            <div class="services">
+                <h3 class="title">Navigation</h3>
+                <ul>
+                    <li><a href="/" class="link">Home</a></li>
+                    <li><a href="/menu" class="link">Menu</a></li>
+                    <li><a href="/about" class="link">About Us</a></li>
+                    <li><a href="/table" class="link">Book Table</a></li>
+                </ul>
+            </div>
+
+            <div class="address">
+                <h3 class="title">Address</h3>
+                <ul>
+                    <li>Sambhaji Nagar</li>
+                    <li>St. Anthony Road</li>
+                    <li>Chembur</li>
+                    <li>Mumbai-400071</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
     <script>
+        M.Sidenav.init(document.querySelectorAll('.sidenav'));
 
         setInterval(() => {
 
@@ -223,7 +230,7 @@
         }, 1000);
 
         if (window.location.href.includes('?')) {
-            var x = document.querySelectorAll('.dropdown-content a');
+            var x = document.querySelectorAll('.dropdown-content1 a');
             for (let i = 0; i < x.length; i++) {
                 if (!window.location.href.includes('sortby=4') && !window.location.href.includes('sortby=3') && !window.location.href.includes('sortby=2') && !window.location.href.includes('sortby=1')) {
                     var p = String(parseInt((x[i].id).slice(-1)) + 1);
@@ -257,7 +264,7 @@
             }
         }
         $('a.featured').click(function () {
-            var x = $('.dropdown-content');
+            var x = $('.dropdown-content1');
             var y = $('.featured_svg');
             if (!x.hasClass('active')) {
                 x.addClass('active');
