@@ -12,6 +12,7 @@ const { ensureAuth, ensureGuest } = require('../middleware/auth');
 const stripe = require('stripe')('sk_test_51ICkQ3Koy0nW0rNuyUXuevml6tnMab3ykOeRmZVCwlKK4b7o65DnZD0ZdHe2P3uRuzF1gyIfF8AXmYCzSVkrwN5V00aQkhdHsr');
 
 router.get('/', (req, res) => {
+    console.log(__dirname);
     res.render('home', {
         'layout': 'basic',
         user: req.user
@@ -149,7 +150,10 @@ router.get('/removeAllCartItems', ensureAuth, async(req, res) => {
 
 // BOok table
 router.get('/table', (req, res) => {
-    res.sendFile("C:\\Users\\Bipin Jaiswal\\Desktop\\Ankit\\Node Projects\\restaurant-website\\views\\table.html")
+    res.render('table', {
+        'layout': 'basic',
+        
+    })
 })
 
 router.get('/tableDetails/:date/:time', async(req, res) => {
