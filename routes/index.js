@@ -155,6 +155,14 @@ router.get('/table', (req, res) => {
         
     })
 })
+roter.use(function(req, res, next) {
+    res.status(404);
+    res.render('404', {
+        'layout': 'basic',
+        
+    })
+   
+});
 
 router.get('/tableDetails/:date/:time', async(req, res) => {
     console.log("----------------------------------------------------------------------------------")
