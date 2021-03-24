@@ -4,6 +4,7 @@ const Product = require('../models/Product')
 const Table = require('../models/Table')
 const User = require('../models/User')
 const moment = require('moment')
+const querystring = require('querystring');
 const { check, validationResult } = require('express-validator')
 const CartItem = require('../models/CartItem')
 const tables = 20
@@ -12,7 +13,6 @@ const { ensureAuth, ensureGuest } = require('../middleware/auth');
 const stripe = require('stripe')('sk_test_51ICkQ3Koy0nW0rNuyUXuevml6tnMab3ykOeRmZVCwlKK4b7o65DnZD0ZdHe2P3uRuzF1gyIfF8AXmYCzSVkrwN5V00aQkhdHsr');
 
 router.get('/', (req, res) => {
-    console.log(__dirname);
     res.render('home', {
         'layout': 'basic',
         user: req.user
@@ -61,7 +61,6 @@ router.get('/confirm', (req, res) => {
 // Menu Page
 router.get('/menu', async(req, res) => {
     try {
-        console.log(req.user)
         products = await Product.find().lean()
         products = await Product.find().lean()
         if (req.query.sortby && !req.query.search) {
@@ -127,24 +126,59 @@ router.get('/removeFromCart/:id', ensureAuth, async(req, res) => {
 })
 
 router.get('/removeAllCartItems', ensureAuth, async(req, res) => {
-    var products = []
-    cartItem = await CartItem.find({ user: req.user }).lean()
-    for (let i = 0; i < cartItem.length; i++) {
-        product = await Product.find({ _id: cartItem[i].product })
-        products.push(product)
+
+    var qProducts = JSON.parse(req.query['products']);
+    var ids = []
+    for (var i = 0; i < qProducts.length; i++) {
+        if (qProducts[i]._id != "") {
+            ids.push(qProducts[i]._id);
+        }
     }
-    console.log(products)
-    if (products.length) {
-        for (var i = 0; i < products.length; i++) {
-            CartItem.deleteOne({ product: products[i], user: req.user }, function(err) {
-                if (err) console.log(err);
-            });
+
+    var products = []
+    var cartItems = []
+
+    for (let i = 0; i < ids.length; i++) {
+        product = await Product.find({ _id: ids[i] })
+        products.push(product[0])
+    }
+
+    for (let i = 0; i < products.length; i++) {
+        cartItem = await CartItem.find({ user: req.user, product: products[i] }).lean()
+        cartItems.push(cartItem[0])
+    }
+
+    if (cartItems.length == ids.length && ids.length) {
+
+        for (let i = 0; i < cartItem.length; i++) {
+            product = await Product.find({ _id: cartItem[i].product })
+            products.push(product[0])
         }
 
-    } else {
-        return res.redirect('/')
+        if (products.length) {
+            for (var i = 0; i < products.length; i++) {
+                CartItem.deleteOne({ product: products[i], user: req.user }, function(err) {
+                    if (err) console.log(err);
+                });
+            }
+        } else {
+            return res.redirect('/')
+        }
+        qString = querystring.stringify({ 'products': JSON.stringify(qProducts) })
+        res.redirect('/success?' + qString)
     }
-    res.redirect('/')
+})
+
+router.get('/success', (req, res) => {
+    var products = JSON.parse(req.query['products']);
+    products.pop()
+    var date = new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear();
+    res.render('success', {
+        'layout': 'basic',
+        'products': products,
+        'user': req.user.displayName,
+        "date": date
+    })
 })
 
 
@@ -152,28 +186,24 @@ router.get('/removeAllCartItems', ensureAuth, async(req, res) => {
 router.get('/table', (req, res) => {
     res.render('table', {
         'layout': 'basic',
-        
     })
 })
-roter.use(function(req, res, next) {
-    res.status(404);
-    res.render('404', {
-        'layout': 'basic',
-        
-    })
-   
-});
+
+// router.use(function(req, res, next) {
+//     res.status(404);
+//     res.render('404', {
+//         'layout': 'basic',
+
+//     })
+// });
 
 router.get('/tableDetails/:date/:time', async(req, res) => {
-    console.log("----------------------------------------------------------------------------------")
     const _tables = await Table.find({ "date": new Date(req.params.date), "time": req.params.time }, (err) => {
         if (err) {
             console.log(err)
         }
     }).lean()
 
-    console.log(_tables)
-    console.log("------------------------------------------------------------")
     res.json({
         table: _tables.length,
     });
@@ -187,29 +217,71 @@ router.get('/saveTables', (req, res) => {
         }
         if (data) {
             console.log(data);
-            // res.redirect('/')
         }
     })
-    res.redirect('/')
+
+    res.redirect(`/tableSuccess?id=${_table._id}`)
+})
+
+router.get('/tableSuccess', async(req, res) => {
+    const tables = await Table.find({ _id: req.query.id }).lean()
+    if (tables.length != 0) {
+        var date = new Date(tables[0].date).getDate() + "/" + (new Date(tables[0].date).getMonth() + 1) + "/" + new Date(tables[0].date).getFullYear();
+        res.render('tableSuccess', {
+            'layout': 'basic',
+            'table': tables[0],
+            'date': date
+        })
+    } else {
+        res.redirect('/')
+    }
 })
 
 router.post('/create-checkout-session', async(req, res) => {
-    const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: [{
+    var _lineItems = []
+    var queriesList = []
+    for (var i = 0; i < req.body.images.length; i++) {
+        _lineItems.push({
             price_data: {
                 currency: 'INR',
                 product_data: {
-                    name: req.body.productName,
-                    images: req.body.images,
+                    name: req.body.name[i],
+                    images: [req.body.images[i]],
                 },
-                unit_amount: req.body.amount,
+                unit_amount: req.body.amount[i],
             },
-            quantity: req.body.quantity,
-        }, ],
+            quantity: req.body.quantity[i],
+        })
+
+        if (req.body.name[i] != "Book A Table") {
+
+            queriesList.push({
+                _id: req.body.ids[i],
+                price_data: {
+                    currency: 'INR',
+                    product_data: {
+                        name: req.body.name[i],
+                        images: [req.body.images[i]],
+                    },
+                    unit_amount: req.body.amount[i],
+                },
+                quantity: req.body.quantity[i],
+            })
+        }
+    }
+
+    if (queriesList.length != 0) {
+        qString = querystring.stringify({ 'products': JSON.stringify(queriesList) })
+    } else {
+        qString = ""
+    }
+
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: _lineItems,
         mode: 'payment',
-        success_url: req.body.success_url,
-        cancel_url: 'http://localhost:3000/',
+        success_url: req.body.success_url + qString,
+        cancel_url: req.body.cancel_url,
     });
     res.json({ id: session.id });
 });
@@ -217,12 +289,14 @@ router.post('/create-checkout-session', async(req, res) => {
 
 // Remove all tables from the database before this day
 setInterval(async() => {
-    var date = new Date.getDate() + "-" + new Date.getMonth + "-" + new Date.getYear();
-    const _tables = await Table.find({ time: new Date.getHours(), date: date }).lean();
+    var date = new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear();
+    const _tables = await Table.find({ time: { $lt: new Date().getHours() }, date: { $lt: new Date() } }).lean();
     if (_tables.length) {
-        table.deleteOne({ _id: _tables[0]._id });
+        Table.deleteOne({ _id: _tables[0]._id }, function(err) {
+            if (err) console.log(err);
+        });
     }
-}, 3600000)
+}, 36000000)
 
 
 module.exports = router

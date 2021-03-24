@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/home.css">
     <title>Naivedya</title>
 </head>
@@ -22,16 +23,14 @@
         <div class="container">
             <div class="row align-items-center mt-5">
                 <div class="col-lg-6 d-none d-lg-block">
-                    <div class="hero-img">
+                    <div class="hero-img" data-aos="fade-in" data-aos-duration="1500">
                         <img src="http://localhost:3000/images/home.jpeg" alt="Home img" width="500px" height="500px">
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12" data-aos="fade-left" data-aos-duration="1200">
                     <div class="section">
                         <h1 class="heading">Enjoy Our <br> Delicious Meal</h1>
-                        <p class="content">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            1500s, when an unknown printer took a galley of type and scrambled it to make a type
-                            specimen book.</p>
+                        <p class="content">We at Naivedya believe that food is divine. Enjoy our delicious meals by simply browsing our menu page and adding them to the cart. We accept orders from 10 am to 9 pm. We are open on all days.</p>
                         <a class="exploreNow" href="/menu">Explore Now</a>
                     </div>
                 </div>
@@ -43,7 +42,7 @@
         <h2 class="section-title">Our Servies</h2>
         <div class="container">
             <div class="box-row">
-                <div class="card">
+                <div class="card" data-aos="fade-right">
                     <svg class="services__img" xmlns="http://www.w3.org/2000/svg">
                         <path d="M45.3205 21.5702L44.6357 19.3163C43.7659 16.756 40.9852 15.3857 38.4249 
                             16.2556C36.9847 16.7449 35.8536 17.876 35.3643 19.3163L34.6795 21.5702C34.1032 
@@ -110,7 +109,7 @@
                         in the city.</p>
 
                 </div>
-                <div class="card">
+                <div class="card" data-aos="fade-left">
                     <svg class="services__img" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0)">
                             <path d="M55.82 22.0395C55.5475 21.5164 54.9027 21.3132 54.3795 21.5855L54.3794 
@@ -343,7 +342,7 @@
     </section>
 
     <section class="chefs align-items-center">
-        <h2 class="section-title">Founders<h2>
+        <h2 class="section-title">Testimonials<h2>
         <div class="container">
             <div class="card">
                 <div class="content">
@@ -392,7 +391,7 @@
             <div class="content">
                 <a href="#" class="brand-logo">Nai<span>vedya</span></a>
                 <div class="icons">
-                    <a href="https://github.com/AryanKhurana/Ristoranto" class="footer__social"><i class='fab fa-facebook-f'></i></a>
+                    <a href="https://www.google.com/url?sa=t&source=web&rct=j&url=https://m.facebook.com/pages/category/Cultural-Center/Naivedya-109975364103644/&ved=2ahUKEwjAjf390MXvAhUmyzgGHQ4rDOwQFjABegQICBAC&usg=AOvVaw1DHHheo5tjDEN_0h-NN7v-" class="footer__social"><i class='fab fa-facebook-f'></i></a>
                     <a href="https://www.instagram.com/naivedya2020.3/" class="footer__social"><i class='fab fa-instagram'></i></a>
                     <a href="https://github.com/AryanKhurana/Ristoranto" class="footer__social"><i class='fab fa-github'></i></a>
                 </div>
@@ -420,8 +419,7 @@
         </div>
     </footer>
 
-
-
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -434,6 +432,7 @@
         crossorigin="anonymous"></script>
     <script>
         M.Sidenav.init(document.querySelectorAll('.sidenav'));
+        AOS.init();
     </script>
 </body>
 

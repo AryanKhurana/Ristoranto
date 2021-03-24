@@ -33,12 +33,12 @@
                 <div class="product">
                     <div class="div1">
                         <div class="img">
-                            <img src="{{image}}">
+                            <img class="product-image" src="{{image}}">
                         </div>
                         <div class="product-data">
                             <h3 class="name">{{name}}</h3>
                             <p class="description">{{description}}</p>
-                            <p class="price">Rs <span class="c{{_id}}">{{price}}</span></p>
+                            <p class="price">Rs <span class="c{{_id}}" id="c{{_id}}">{{price}}</span></p>
                         </div>
                     </div>
                     <div class="additional-details">
@@ -188,6 +188,57 @@
             document.querySelector('.proceed-div .totalPrice p span').innerHTML = sum + 40;
         }, 1000);
 
+        function getNames(){
+            var arr = [];
+            var x= document.querySelectorAll('.name');
+            for(var i=0; i<x.length; i++)
+                arr.push(x[i].innerHTML)
+
+            arr.push('Delivery Charges')
+
+            return arr;
+        }
+
+        function getImages(){
+            var arr = [];
+            var x= document.querySelectorAll('.product-image');
+            for(var i=0; i<x.length; i++)
+                arr.push(x[i].src)
+
+            arr.push('https://blog.ipleaders.in/wp-content/uploads/2019/11/foodmitho.jpg')
+
+            return arr;
+        }
+
+        function getQuantity(){
+            var arr = [];
+            var x= document.querySelectorAll('.cart-quantity-controls input');
+            for(var i=0; i<x.length; i++)
+                arr.push(parseInt(x[i].value))
+
+            arr.push(1)
+            return arr;
+        }
+
+        function getAmount(){
+            var arr = [];
+            var x= document.querySelectorAll('.product-data .price span');
+            for(var i=0; i<x.length; i++)
+                arr.push(parseInt(x[i].innerHTML)*100)
+
+            arr.push(4000)
+            return arr;
+        }
+
+        function getIDs(){
+            var arr = []
+            var x = document.querySelectorAll('.product-data .price span');
+            for(var i=0; i<x.length; i++)
+                arr.push(x[i].id.substring(1, x[i].id.length+1))
+            arr.push("")
+            return arr;
+        }
+
 
         document.querySelector('#submit').addEventListener('click', function () {
             var stripe = Stripe("pk_test_51ICkQ3Koy0nW0rNuHrLUZfbvh3eFsFrUUTVgGGavttDTvEhYPzEgXmrAyXPKk1F3lkcOARhpO3W3o9H35e2miMCY00FbaM4Jha");
@@ -198,11 +249,13 @@
                     "Accept": "application/json"
                 },
                 body: JSON.stringify({
-                    productName: "Order Online",
-                    images: ["https://upload.wikimedia.org/wikipedia/commons/f/fe/Traditional_Naivedya_thali.jpg"],
-                    quantity: 1,
-                    amount: parseInt(document.querySelector('.proceed-div .totalPrice p span').innerHTML) * 100,
-                    success_url: "http://localhost:3000/removeAllCartItems"
+                    name: getNames(),
+                    images: getImages(),
+                    quantity: getQuantity(),
+                    amount: getAmount(),
+                    ids: getIDs(),
+                    success_url: `http://localhost:3000/removeAllCartItems?`,
+                    cancel_url: "http://localhost:3000/cart"
                 }),
             })
                 .then(function (response) {

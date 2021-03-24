@@ -153,11 +153,14 @@
                         "Accept": "application/json"
                     },
                     body: JSON.stringify({
-                        productName: "Book A Table",
+                        name: [
+                            "Book A Table"
+                        ],
                         images: ["https://upload.wikimedia.org/wikipedia/commons/f/fe/Traditional_Naivedya_thali.jpg"],
-                        quantity: $('.persons')[0].value,
-                        amount: 5000,
-                        success_url: `http://localhost:3000/saveTables?firstName=${$('.firstName')[0].value}&lastName=${$('.lastName')[0].value}&date=${$('.date')[0].value}&persons=${$('.persons')[0].value}&email=${$('.email')[0].value}&time=${$('.time')[0].value}`
+                        quantity: [parseInt($('.persons')[0].value)],
+                        amount: [5000],
+                        success_url: `http://localhost:3000/saveTables?firstName=${$('.firstName')[0].value}&lastName=${$('.lastName')[0].value}&date=${$('.date')[0].value}&persons=${$('.persons')[0].value}&email=${$('.email')[0].value}&time=${$('.time')[0].value}`,
+                        cancel_url: "http://localhost:3000/table"
                     }),
                 })
                 .then(function(response) {
