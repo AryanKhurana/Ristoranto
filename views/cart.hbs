@@ -78,12 +78,14 @@
             </div>
             <div class="noItems" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                 <div class="img" style="width: 200px; margin-bottom: 20px">
-                    <img width="100%" 
+                    <img width="100%"
                         src="https://rukminim1.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90">
                 </div>
                 <p>Your cart is empty!</p>
                 <p>Add items to it now.</p>
-                <a href="/menu" style="padding: 10px 40px; margin-top: 20px; color: white; background-color: #40cd92; margin-bottom: 40px">Shop Now</a>
+                <a href="/menu"
+                    style="padding: 10px 40px; margin-top: 20px; color: white; background-color: #40cd92; margin-bottom: 40px">Shop
+                    Now</a>
             </div>
         </div>
         {{/if}}
@@ -91,11 +93,18 @@
         {{#if products}}
         <div class="proceed-div">
             <div class="details">
-                <h3>Price Details</h3>
+                <h3>Order Details</h3>
             </div>
             <div class="price">
                 <p>Price </p>
                 <p>Rs <span></span></p>
+            </div>
+            <div class="address_div">
+                <input class="address" type="text" placeholder="Delivery Address">
+            </div>
+            <div class="form-row">
+                <div class="form-error-message">
+                </div>
             </div>
             <div class="deliveryCharges">
                 <p>Delivery Charges </p>
@@ -188,10 +197,10 @@
             document.querySelector('.proceed-div .totalPrice p span').innerHTML = sum + 40;
         }, 1000);
 
-        function getNames(){
+        function getNames() {
             var arr = [];
-            var x= document.querySelectorAll('.name');
-            for(var i=0; i<x.length; i++)
+            var x = document.querySelectorAll('.name');
+            for (var i = 0; i < x.length; i++)
                 arr.push(x[i].innerHTML)
 
             arr.push('Delivery Charges')
@@ -199,10 +208,10 @@
             return arr;
         }
 
-        function getImages(){
+        function getImages() {
             var arr = [];
-            var x= document.querySelectorAll('.product-image');
-            for(var i=0; i<x.length; i++)
+            var x = document.querySelectorAll('.product-image');
+            for (var i = 0; i < x.length; i++)
                 arr.push(x[i].src)
 
             arr.push('https://blog.ipleaders.in/wp-content/uploads/2019/11/foodmitho.jpg')
@@ -210,74 +219,82 @@
             return arr;
         }
 
-        function getQuantity(){
+        function getQuantity() {
             var arr = [];
-            var x= document.querySelectorAll('.cart-quantity-controls input');
-            for(var i=0; i<x.length; i++)
+            var x = document.querySelectorAll('.cart-quantity-controls input');
+            for (var i = 0; i < x.length; i++)
                 arr.push(parseInt(x[i].value))
 
             arr.push(1)
             return arr;
         }
 
-        function getAmount(){
+        function getAmount() {
             var arr = [];
-            var x= document.querySelectorAll('.product-data .price span');
-            for(var i=0; i<x.length; i++)
-                arr.push(parseInt(x[i].innerHTML)*100)
+            var x = document.querySelectorAll('.product-data .price span');
+            for (var i = 0; i < x.length; i++)
+                arr.push(parseInt(x[i].innerHTML) * 100)
 
             arr.push(4000)
             return arr;
         }
 
-        function getIDs(){
+        function getIDs() {
             var arr = []
             var x = document.querySelectorAll('.product-data .price span');
-            for(var i=0; i<x.length; i++)
-                arr.push(x[i].id.substring(1, x[i].id.length+1))
+            for (var i = 0; i < x.length; i++)
+                arr.push(x[i].id.substring(1, x[i].id.length + 1))
             arr.push("")
             return arr;
         }
 
 
         document.querySelector('#submit').addEventListener('click', function () {
-            var stripe = Stripe("pk_test_51ICkQ3Koy0nW0rNuHrLUZfbvh3eFsFrUUTVgGGavttDTvEhYPzEgXmrAyXPKk1F3lkcOARhpO3W3o9H35e2miMCY00FbaM4Jha");
-            fetch("/create-checkout-session", {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({
-                    name: getNames(),
-                    images: getImages(),
-                    quantity: getQuantity(),
-                    amount: getAmount(),
-                    ids: getIDs(),
-                    success_url: `http://localhost:3000/removeAllCartItems?`,
-                    cancel_url: "http://localhost:3000/cart"
-                }),
-            })
-                .then(function (response) {
-                    return response.json();
+            if (document.querySelector('.address').value != "") {
+                $('.form-error-message')[0].classList.remove("error");
+                var stripe = Stripe('{{key}}');
+                fetch("/create-checkout-session", {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: getNames(),
+                        images: getImages(),
+                        quantity: getQuantity(),
+                        amount: getAmount(),
+                        ids: getIDs(),
+                        success_url: `http://localhost:3000/removeAllCartItems?address=${document.querySelector('.address').value}&`,
+                        cancel_url: "http://localhost:3000/cart"
+                    }),
                 })
-                .then(function (session) {
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (session) {
 
-                    return stripe.redirectToCheckout({
-                        sessionId: session.id
+                        return stripe.redirectToCheckout({
+                            sessionId: session.id
+                        });
+                    })
+                    .then(function (result) {
+                        if (result.error) {
+                            alert(result.error.message);
+                        } else {
+                            console.log("Hii")
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log("Error: ", error);
                     });
-                })
-                .then(function (result) {
-                    if (result.error) {
-                        alert(result.error.message);
-                    } else {
-                        console.log("Hii")
-                    }
-                })
-                .catch(function (error) {
-                    console.log("Error: ", error);
-                });
+            } else {
+                console.log("Hii")
+                $('.form-error-message')[0].classList.add("error");
+                $('.form-error-message')[0].innerHTML = "Enter Address";
+            }
         })
+
 
     </script>
 </body>

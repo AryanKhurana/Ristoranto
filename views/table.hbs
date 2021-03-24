@@ -145,7 +145,7 @@
                 return false;
             }
 
-            var stripe = Stripe("pk_test_51ICkQ3Koy0nW0rNuHrLUZfbvh3eFsFrUUTVgGGavttDTvEhYPzEgXmrAyXPKk1F3lkcOARhpO3W3o9H35e2miMCY00FbaM4Jha");
+            var stripe = Stripe("{{key}}");
             fetch("/create-checkout-session", {
                     method: "POST",
                     headers: {

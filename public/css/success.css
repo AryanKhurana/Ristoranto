@@ -65,14 +65,14 @@ body {
 
 .box .user_details .user {
     font-size: 16px;
-    text-align: right;
+    margin: 5px;
+    /* text-align: right; */
     font-weight: normal;
+    text-align: left;
 }
 
 .box .user_details .user:first-child {
     margin-top: 10px;
-    text-align: right;
-    font-weight: normal;
 }
 
 .box .items .headings {

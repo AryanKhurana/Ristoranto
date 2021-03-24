@@ -10,7 +10,7 @@ const CartItem = require('../models/CartItem')
 const tables = 20
 const fetch = require("node-fetch");
 const { ensureAuth, ensureGuest } = require('../middleware/auth');
-const stripe = require('stripe')('sk_test_51ICkQ3Koy0nW0rNuyUXuevml6tnMab3ykOeRmZVCwlKK4b7o65DnZD0ZdHe2P3uRuzF1gyIfF8AXmYCzSVkrwN5V00aQkhdHsr');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 router.get('/', (req, res) => {
     res.render('home', {
@@ -41,7 +41,8 @@ router.get('/cart', ensureAuth, async(req, res) => {
         res.render('cart', {
             'layout': 'basic',
             'products': products,
-            'user': req.user
+            'user': req.user,
+            'key': process.env.STRIPE_PUBLISHABLE_KEY,
         })
     } catch (err) {
         console.error(err + '***')
@@ -64,6 +65,7 @@ router.get('/menu', async(req, res) => {
         products = await Product.find().lean()
         products = await Product.find().lean()
         if (req.query.sortby && !req.query.search) {
+
             if (req.query.sortby == 1)
                 products = await Product.find().sort({ price: 1 }).lean()
             else if (req.query.sortby == 2)
@@ -72,16 +74,31 @@ router.get('/menu', async(req, res) => {
                 products = await Product.find().sort({ name: 1 }).lean()
             else if (req.query.sortby == 4)
                 products = await Product.find().sort({ name: -1 }).lean()
+
         } else if (req.query.search && !req.query.sortby) {
+
             var regex = new RegExp(req.query.search, 'i')
             products = await Product.find({ name: regex }).lean()
+
+        } else if (req.query.search && req.query.sortby) {
+
+            var regex = new RegExp(req.query.search, 'i')
+            if (req.query.sortby == 1)
+                products = await Product.find({ name: regex }).sort({ price: 1 }).lean()
+            else if (req.query.sortby == 2)
+                products = await Product.find({ name: regex }).sort({ price: -1 }).lean()
+            else if (req.query.sortby == 3)
+                products = await Product.find({ name: regex }).sort({ name: 1 }).lean()
+            else if (req.query.sortby == 4)
+                products = await Product.find({ name: regex }).sort({ name: -1 }).lean()
         }
 
         res.render('menu', {
             'layout': 'basic',
             'products': products,
             'sortby': req.query.sortby,
-            'user': req.user
+            'user': req.user,
+            'search': req.query.search
         })
     } catch (err) {
         console.error(err)
@@ -99,7 +116,6 @@ router.get('/addToCart/:id', ensureAuth, async(req, res) => {
                 console.log(error)
             }
             if (data) {
-
                 res.redirect('/menu')
             }
         })
@@ -164,7 +180,8 @@ router.get('/removeAllCartItems', ensureAuth, async(req, res) => {
         } else {
             return res.redirect('/')
         }
-        qString = querystring.stringify({ 'products': JSON.stringify(qProducts) })
+        console.log(req.query.address)
+        qString = querystring.stringify({ 'products': JSON.stringify(qProducts), 'address': req.query.address })
         res.redirect('/success?' + qString)
     }
 })
@@ -177,7 +194,8 @@ router.get('/success', (req, res) => {
         'layout': 'basic',
         'products': products,
         'user': req.user.displayName,
-        "date": date
+        "date": date,
+        'address': req.query.address
     })
 })
 
@@ -186,6 +204,7 @@ router.get('/success', (req, res) => {
 router.get('/table', (req, res) => {
     res.render('table', {
         'layout': 'basic',
+        'key': process.env.STRIPE_PUBLISHABLE_KEY,
     })
 })
 

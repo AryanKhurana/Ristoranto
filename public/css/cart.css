@@ -469,6 +469,21 @@ div.products_list_div {
     margin: 0;
 }
 
+.proceed-div .address_div {
+    width: 100%;
+    padding: 8px 20px;
+}
+
+.proceed-div .address_div .address {
+    border: none;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid #D1D1D1;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
 .proceed-div .price,
 .proceed-div .deliveryCharges,
 .proceed-div .totalPrice {
@@ -594,6 +609,35 @@ div.products_list_div {
     .container {
         width: auto;
     }
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.form-error-message {
+    display: none;
+}
+
+.form-error-message.error {
+    display: block;
+    color: #fff;
+    background-color: #f23a3c;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='14' height='15' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7 14.515a7 7 0 110-14 7 7 0 010 14zm-.814-5.86h1.628v-5.21H6.186v5.21zM7 11.259a.82.82 0 00.814-.824A.816.816 0 007 9.631a.813.813 0 100 1.628z' fill='%23fff'/%3E%3C/svg%3E");
+    font-size: .75em;
+    margin-top: 3px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    background-size: .875em;
+    background-position: .375em;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: auto;
+    padding: .25em .5em .25em 1.625em;
 }
 
 
