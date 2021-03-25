@@ -7,6 +7,7 @@ const moment = require('moment')
 const querystring = require('querystring');
 const { check, validationResult } = require('express-validator')
 const CartItem = require('../models/CartItem')
+const OrderItem = require('../models/OrderItem')
 const tables = 20
 const fetch = require("node-fetch");
 const { ensureAuth, ensureGuest } = require('../middleware/auth');
@@ -18,6 +19,20 @@ router.get('/', (req, res) => {
         user: req.user
     });
 })
+
+// router.get('/save', async(req, res) => {
+//     const product = new Product({
+//         name: "Sabudana Vada",
+//         price: 50,
+//         image: "https://www.funfoodfrolic.com/wp-content/uploads/2020/08/Sabudana-Vada-Thumbnail-Blog.jpg",
+//         description: "Sabudana Vada is a traditional deep fried fritter from Maharashtra, India",
+//         cuisine: "Indian"
+//     })
+//     product.save((err, data) => {
+//         if (err) console.log(err)
+//     })
+//     res.redirect('/')
+// })
 
 router.get('/login', ensureGuest, (req, res) => {
     res.render('login', {
@@ -182,8 +197,41 @@ router.get('/removeAllCartItems', ensureAuth, async(req, res) => {
         }
         console.log(req.query.address)
         qString = querystring.stringify({ 'products': JSON.stringify(qProducts), 'address': req.query.address })
-        res.redirect('/success?' + qString)
+        res.redirect('/createOrder?' + qString)
+            // res.redirect('/success?' + qString)
     }
+})
+
+router.get('/createOrder', async(req, res) => {
+    var qProducts = JSON.parse(req.query['products']);
+    var ids = []
+    var quantity = []
+    for (var i = 0; i < qProducts.length; i++) {
+        if (qProducts[i]._id != "") {
+            ids.push(qProducts[i]._id);
+            quantity.push(qProducts[i].quantity)
+        }
+    }
+
+    var products = []
+
+    for (let i = 0; i < ids.length; i++) {
+        product = await Product.find({ _id: ids[i] })
+        products.push(product[0])
+    }
+
+    const _order = new OrderItem({ user: req.user, products: products, address: req.query.address, quantity: quantity })
+    console.log(_order)
+    console.log(quantity)
+    _order.save((error, data) => {
+        if (error) {
+            console.log(error)
+        }
+        if (data) {
+            qString = querystring.stringify({ 'products': JSON.stringify(qProducts), 'address': req.query.address })
+            res.redirect('/success?' + qString)
+        }
+    })
 })
 
 router.get('/success', (req, res) => {
@@ -198,6 +246,61 @@ router.get('/success', (req, res) => {
         'address': req.query.address
     })
 })
+
+
+// Orders
+router.get('/orders', ensureAuth, async(req, res) => {
+    const orders = await OrderItem.find({ user: req.user }).lean()
+    console.log(orders)
+
+    var products;
+    var _orders = [];
+    if (orders.length != 0) {
+        for (let i = orders.length - 1; i >= 0; i--) {
+            products = []
+            for (let j = 0; j < orders[i].products.length; j++) {
+                var product = await Product.find({ _id: orders[i].products[j] }).lean()
+                product[0]['quantity'] = orders[i].quantity[j]
+                products.push(product[0])
+            }
+            console.log((orders[i].bookedAt))
+            var date = mon(new Date().getMonth(orders[i].bookedAt)) + " " + new Date(orders[i].bookedAt).getDate() + ", " + new Date().getFullYear();
+            _orders.push({ 'address': orders[i].address, 'products': products, 'deliveryCharges': orders[i].deliveryCharges, 'date': date })
+        }
+    }
+    res.render('order', {
+        'layout': 'basic',
+        'orders': _orders,
+        'user': req.user
+    })
+})
+
+function mon(num) {
+    if (num == 0)
+        return "Jan"
+    else if (num == 1)
+        return "Feb"
+    else if (num == 2)
+        return "Mar"
+    else if (num == 3)
+        return "Apr"
+    else if (num == 4)
+        return "May"
+    else if (num == 5)
+        return "Jun"
+    else if (num == 6)
+        return "Jul"
+    else if (num == 7)
+        return "Aug"
+    else if (num == 8)
+        return "Sep"
+    else if (num == 9)
+        return "Oxt"
+    else if (num == 10)
+        return "Nov"
+    else
+        return "Dec"
+}
 
 
 // BOok table
