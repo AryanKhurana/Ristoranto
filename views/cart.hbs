@@ -95,7 +95,7 @@
             <div class="details">
                 <h3>Order Details</h3>
             </div>
-            <div class="price">
+            <div class="price hola">
                 <p>Price </p>
                 <p>Rs <span></span></p>
             </div>
@@ -108,7 +108,11 @@
             </div>
             <div class="deliveryCharges">
                 <p>Delivery Charges </p>
+                {{#if parseInt(document.querySelector('.hola span').innerHTML)>=500}}
+                <p>Rs <span>0</span></p>
+                {{else}}
                 <p>Rs <span>40</span></p>
+                {{/if}}
             </div>
             <div class="totalPrice">
                 <p>Total Price </p>
