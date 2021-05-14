@@ -263,7 +263,6 @@ router.get('/orders', ensureAuth, async(req, res) => {
                 product[0]['quantity'] = orders[i].quantity[j]
                 products.push(product[0])
             }
-            console.log((orders[i].bookedAt))
             var date = mon(new Date().getMonth(orders[i].bookedAt)) + " " + new Date(orders[i].bookedAt).getDate() + ", " + new Date().getFullYear();
             _orders.push({ 'address': orders[i].address, 'products': products, 'deliveryCharges': orders[i].deliveryCharges, 'date': date })
         }
